@@ -1,0 +1,7 @@
+{
+    "name": "cuda-image-filters",
+    "version": "0.0.0",
+    "dependencies": [
+        "opencv"
+    ]
+}
