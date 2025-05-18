@@ -1,0 +1,122 @@
+#include "filters.h"
+#include <opencv2/imgproc.hpp>
+
+#include "cpu_timer.h"
+#include "cuda_timer.h"
+#include "cuda_utils.h"
+#include "filters_gpu.h"
+#include "filters_gpu_utils.h"
+
+
+#define BLOCK_SIZE 16
+
+cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams& params) {
+	CV_Assert(input.type() == CV_8UC1); // Ensure input is single-channel (grayscale)
+
+    const int rows = input.rows;
+    const int cols = input.cols;
+    const size_t size = input.total();
+
+	// Device pointers
+    uchar* d_input = nullptr;
+    uchar* d_output = nullptr;
+    uchar* d_mask = nullptr;
+
+	// Allocate device memory
+    CUDA_CHECK(cudaMalloc(&d_input, size));
+    CUDA_CHECK(cudaMalloc(&d_output, size));
+    CUDA_CHECK(cudaMemcpy(d_input, input.data, size, cudaMemcpyHostToDevice));
+
+	// Only allocate mask if the filter is morphological
+    if (isMorphologicalFilter(type)) {
+        d_mask = prepareMorphMask(params);
+    }
+
+	// Define gpu kernel launch parameters
+    dim3 block(16, 16);
+    dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
+
+	// Measure kernel execution time
+    CudaTimer timer;
+    timer.begin();
+
+    switch (type) {
+    case FilterType::GAUSSIAN_BLUR:
+        launchGaussianBlur(d_input, d_output, rows, cols, params.kernelSize, params.sigma, grid, block);
+        break;
+
+    case FilterType::EROSION: {
+        launchErosion(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+        break;
+    }
+	case FilterType::DILATION: {
+		launchDilation(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		break;
+	}
+	case FilterType::OPENING: {
+		launchOpening(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		break;
+	}
+	case FilterType::CLOSING: {
+		launchClosing(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		break;
+	}
+    default:
+        std::cerr << "Unsupported filter type for GPU!\n";
+        cudaFree(d_input);
+        cudaFree(d_output);
+        return input.clone();
+    }
+
+    timer.end();
+    std::cout << "[GPU] Kernel time: " << timer.elapsedMs() << " ms\n";
+
+    cv::Mat result(rows, cols, CV_8UC1);
+    CUDA_CHECK(cudaMemcpy(result.data, d_output, size, cudaMemcpyDeviceToHost));
+
+    CUDA_CHECK(cudaFree(d_input));
+    CUDA_CHECK(cudaFree(d_output));
+    if (d_mask) CUDA_CHECK(cudaFree(d_mask));
+
+    return result;
+}
+
+
+cv::Mat applyFilterCpu(const cv::Mat& input, FilterType type, const FilterParams& params) {
+    cv::Mat output;
+
+    CpuTimer timer;
+    timer.start();
+
+    switch (type) {
+    case FilterType::GAUSSIAN_BLUR:
+        cv::GaussianBlur(input, output, params.kernelSize, params.sigma);
+        break;
+
+    case FilterType::EROSION:
+        cv::erode(input, output, cv::getStructuringElement(params.morphShape, params.morphKernelSize));
+        break;
+
+    case FilterType::DILATION:
+        cv::dilate(input, output, cv::getStructuringElement(params.morphShape, params.morphKernelSize));
+        break;
+
+    case FilterType::OPENING:
+        cv::morphologyEx(input, output, cv::MORPH_OPEN,
+            cv::getStructuringElement(params.morphShape, params.morphKernelSize));
+        break;
+
+    case FilterType::CLOSING:
+        cv::morphologyEx(input, output, cv::MORPH_CLOSE,
+            cv::getStructuringElement(params.morphShape, params.morphKernelSize));
+        break;
+
+    default:
+        output = input.clone();
+    }
+
+    timer.stop();
+    std::cout << "[CPU] Filter time: " << timer.elapsedMs() << " ms\n";
+
+    return output;
+}

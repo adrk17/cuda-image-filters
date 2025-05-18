@@ -2,6 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="filters_gpu.cu">
+      <Filter>SourceFiles</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HeaderFiles">
@@ -13,13 +16,47 @@
     <Filter Include="HeaderFiles\utils">
       <UniqueIdentifier>{60ed9acc-bc50-41b8-b1b5-47d7271b1d17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceFiles">
+      <UniqueIdentifier>{108012f9-8c50-4ce5-bd6a-7ac158b91966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\filters">
+      <UniqueIdentifier>{6fce1905-ee8d-4c07-af06-ed33f5a680e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cuda_utils.h">
       <Filter>HeaderFiles\utils</Filter>
     </ClInclude>
+    <ClInclude Include="cuda_timer.h">
+      <Filter>HeaderFiles\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="image_loader.h">
+      <Filter>HeaderFiles\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="cpu_timer.h">
+      <Filter>HeaderFiles\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="filters.h">
+      <Filter>HeaderFiles\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="filters_gpu.h">
+      <Filter>HeaderFiles\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="filters_gpu_utils.h">
+      <Filter>HeaderFiles\filters</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="filters.cu">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="lena.png">
+      <Filter>ResourceFiles</Filter>
+    </Image>
   </ItemGroup>
 </Project>
