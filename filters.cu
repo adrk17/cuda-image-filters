@@ -42,23 +42,23 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 
     switch (type) {
     case FilterType::GAUSSIAN_BLUR:
-        launchGaussianBlur(d_input, d_output, rows, cols, params.kernelSize, params.sigma, grid, block);
+        CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelSize, params.sigma, grid, block));
         break;
 
     case FilterType::EROSION: {
-        launchErosion(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+        CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
         break;
     }
 	case FilterType::DILATION: {
-		launchDilation(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		CUDA_CHECK(launchDilation(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
 		break;
 	}
 	case FilterType::OPENING: {
-		launchOpening(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		CUDA_CHECK(launchOpening(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
 		break;
 	}
 	case FilterType::CLOSING: {
-		launchClosing(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block);
+		CUDA_CHECK(launchClosing(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
 		break;
 	}
     default:

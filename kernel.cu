@@ -14,7 +14,7 @@ int main() {
 
     FilterParams params;
 
-    FilterType type = FilterType::EROSION;
+    FilterType type = FilterType::GAUSSIAN_BLUR;
 
 	cv::imshow("Input", input);
 	cv::waitKey(0);
