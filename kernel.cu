@@ -3,7 +3,8 @@
 #include <opencv2/opencv.hpp>
 
 #include "image_loader.h"
-#include "filters.h"
+#include "filter_common.h"
+#include "filter_interface.h"
 
 
 int main() {
@@ -13,6 +14,7 @@ int main() {
     cv::Mat input = ImageLoader::loadImage(path);
 
     FilterParams params;
+	params.kernelWidth = 5;
 
     FilterType type = FilterType::GAUSSIAN_BLUR;
 

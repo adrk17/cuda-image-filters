@@ -1,14 +1,12 @@
-#include "filters.h"
+#include "filter_interface.h"
+#include "filter_cuda_kernels.h"
+#include "filter_cuda_utils.h"
 #include <opencv2/imgproc.hpp>
 
 #include "cpu_timer.h"
 #include "cuda_timer.h"
-#include "cuda_utils.h"
-#include "filters_gpu.h"
-#include "filters_gpu_utils.h"
 
 
-#define BLOCK_SIZE 16
 
 cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams& params) {
 	CV_Assert(input.type() == CV_8UC1); // Ensure input is single-channel (grayscale)
@@ -42,7 +40,7 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 
     switch (type) {
     case FilterType::GAUSSIAN_BLUR:
-        CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelSize, params.sigma, grid, block));
+        CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelWidth, params.sigma, grid, block));
         break;
 
     case FilterType::EROSION: {
@@ -90,7 +88,7 @@ cv::Mat applyFilterCpu(const cv::Mat& input, FilterType type, const FilterParams
 
     switch (type) {
     case FilterType::GAUSSIAN_BLUR:
-        cv::GaussianBlur(input, output, params.kernelSize, params.sigma);
+        cv::GaussianBlur(input, output, { params.kernelWidth, params.kernelWidth }, params.sigma);
         break;
 
     case FilterType::EROSION:

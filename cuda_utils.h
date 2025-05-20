@@ -16,3 +16,5 @@
     } while (0)
 
 #endif
+
+#define BLOCK_SIZE 16

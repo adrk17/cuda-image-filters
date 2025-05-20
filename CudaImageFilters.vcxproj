@@ -93,23 +93,25 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="filters_gpu.cu" />
+    <CudaCompile Include="filter_cuda_kernels.cu" />
+    <CudaCompile Include="filter_cuda_utils.cu" />
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpu_timer.h" />
     <ClInclude Include="cuda_timer.h" />
     <ClInclude Include="cuda_utils.h" />
-    <ClInclude Include="filters.h" />
-    <ClInclude Include="filters_gpu.h" />
-    <ClInclude Include="filters_gpu_utils.h" />
+    <ClInclude Include="filter_common.h" />
+    <ClInclude Include="filter_cuda_kernels.h" />
+    <ClInclude Include="filter_cuda_utils.h" />
+    <ClInclude Include="filter_interface.h" />
     <ClInclude Include="image_loader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="filters.cu" />
+    <ClCompile Include="filter_interface.cu" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="lena.png" />

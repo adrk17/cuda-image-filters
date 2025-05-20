@@ -2,7 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />
-    <CudaCompile Include="filters_gpu.cu">
+    <CudaCompile Include="filter_cuda_kernels.cu">
+      <Filter>SourceFiles</Filter>
+    </CudaCompile>
+    <CudaCompile Include="filter_cuda_utils.cu">
       <Filter>SourceFiles</Filter>
     </CudaCompile>
   </ItemGroup>
@@ -36,13 +39,16 @@
     <ClInclude Include="cpu_timer.h">
       <Filter>HeaderFiles\utils</Filter>
     </ClInclude>
-    <ClInclude Include="filters.h">
+    <ClInclude Include="filter_common.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
-    <ClInclude Include="filters_gpu.h">
+    <ClInclude Include="filter_cuda_kernels.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
-    <ClInclude Include="filters_gpu_utils.h">
+    <ClInclude Include="filter_cuda_utils.h">
+      <Filter>HeaderFiles\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="filter_interface.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,7 +56,7 @@
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="filters.cu">
+    <ClCompile Include="filter_interface.cu">
       <Filter>SourceFiles</Filter>
     </ClCompile>
   </ItemGroup>
