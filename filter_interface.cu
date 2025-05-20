@@ -31,7 +31,7 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
     }
 
 	// Define gpu kernel launch parameters
-    dim3 block(16, 16);
+	dim3 block(BLOCK_SIZE, BLOCK_SIZE);
     dim3 grid((cols + block.x - 1) / block.x, (rows + block.y - 1) / block.y);
 
 	// Measure kernel execution time
@@ -40,6 +40,10 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 
     switch (type) {
     case FilterType::GAUSSIAN_BLUR:
+        if (params.kernelWidth % 2 == 0 || params.kernelWidth < 3) {
+            std::cerr << "Kernel width must be an odd number and >= 3 for Gaussian blur!\n";
+            return input.clone();
+        }
         CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelWidth, params.sigma, grid, block));
         break;
 
@@ -88,6 +92,10 @@ cv::Mat applyFilterCpu(const cv::Mat& input, FilterType type, const FilterParams
 
     switch (type) {
     case FilterType::GAUSSIAN_BLUR:
+		if (params.kernelWidth % 2 == 0 || params.kernelWidth < 3) {
+			std::cerr << "Kernel width must be an odd number and >= 3 for Gaussian blur!\n";
+			return input.clone();
+		}
         cv::GaussianBlur(input, output, { params.kernelWidth, params.kernelWidth }, params.sigma);
         break;
 
