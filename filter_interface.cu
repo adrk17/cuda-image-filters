@@ -63,7 +63,7 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 		CUDA_CHECK(launchClosing(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
 		break;
 	}
-    default:
+    default:  
         std::cerr << "Unsupported filter type for GPU!\n";
         cudaFree(d_input);
         cudaFree(d_output);
