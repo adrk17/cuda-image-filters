@@ -1,7 +1,7 @@
 #ifndef CUDA_TIMER_H
 #define CUDA_TIMER_H
 
-#include "cuda_utils.h"
+#include "cuda_utils.cuh"
 
 class CudaTimer {
 public:

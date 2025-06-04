@@ -2,11 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />
-    <CudaCompile Include="filter_cuda_kernels.cu">
-      <Filter>SourceFiles</Filter>
+    <CudaCompile Include="kernel_launcher.cu">
+      <Filter>SourceFiles\fitlers</Filter>
     </CudaCompile>
-    <CudaCompile Include="filter_cuda_utils.cu">
-      <Filter>SourceFiles</Filter>
+    <CudaCompile Include="kernel_launcher_utils.cu">
+      <Filter>SourceFiles\fitlers</Filter>
+    </CudaCompile>
+    <CudaCompile Include="gaussian.cu">
+      <Filter>SourceFiles\fitlers\cuda_kernels</Filter>
     </CudaCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,44 +28,65 @@
     <Filter Include="HeaderFiles\filters">
       <UniqueIdentifier>{6fce1905-ee8d-4c07-af06-ed33f5a680e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SourceFiles\fitlers">
+      <UniqueIdentifier>{fc431723-6dc8-4b7c-96ef-924dfe484799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\fitlers\cuda_kernels">
+      <UniqueIdentifier>{e58b6bdc-2b28-40ed-8dd4-29fd51233d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\filters\cuda_kernels">
+      <UniqueIdentifier>{7b4b4924-217d-4f7a-8b37-fb0a175ce126}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\utils\timers">
+      <UniqueIdentifier>{47ec3e92-80ac-489c-804d-a38dbc4ef078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\utils\image_processing">
+      <UniqueIdentifier>{90008d20-60d1-45b0-84f3-0c2cc1501d7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HeaderFiles\utils\cuda">
+      <UniqueIdentifier>{e3498174-4051-45c1-90db-300df8dd85b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cuda_utils.h">
-      <Filter>HeaderFiles\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="cuda_timer.h">
-      <Filter>HeaderFiles\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="image_loader.h">
-      <Filter>HeaderFiles\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="cpu_timer.h">
-      <Filter>HeaderFiles\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="filter_common.h">
+    <ClInclude Include="filter_types.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
-    <ClInclude Include="filter_cuda_kernels.h">
+    <ClInclude Include="kernel_launcher.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
-    <ClInclude Include="filter_cuda_utils.h">
+    <ClInclude Include="kernel_launcher_utils.h">
       <Filter>HeaderFiles\filters</Filter>
     </ClInclude>
     <ClInclude Include="filter_interface.h">
       <Filter>HeaderFiles\filters</Filter>
+    </ClInclude>
+    <ClInclude Include="gaussian.cuh">
+      <Filter>HeaderFiles\filters\cuda_kernels</Filter>
+    </ClInclude>
+    <ClInclude Include="cpu_timer.h">
+      <Filter>HeaderFiles\utils\timers</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_timer.h">
+      <Filter>HeaderFiles\utils\timers</Filter>
+    </ClInclude>
+    <ClInclude Include="image_loader.h">
+      <Filter>HeaderFiles\utils\image_processing</Filter>
+    </ClInclude>
+    <ClInclude Include="cuda_utils.cuh">
+      <Filter>HeaderFiles\utils\cuda</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="filter_interface.cu">
-      <Filter>SourceFiles</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="lena.png">
       <Filter>ResourceFiles</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="filter_interface.cu">
+      <Filter>SourceFiles\fitlers</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

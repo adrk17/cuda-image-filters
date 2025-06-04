@@ -1,5 +1,5 @@
-#ifndef CUDA_UTILS_H
-#define CUDA_UTILS_H
+#ifndef CUDA_UTILS_CUH
+#define CUDA_UTILS_CUH
 
 #include <cuda_runtime.h>
 #include <iostream>
@@ -15,6 +15,13 @@
         }                                                                       \
     } while (0)
 
-#endif
 
 #define BLOCK_SIZE 16
+
+__device__ inline int clamp(int value, int minVal, int maxVal) {
+    return (value < minVal) ? minVal : (value > maxVal) ? maxVal : value;
+}
+
+
+#endif
+

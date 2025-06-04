@@ -93,18 +93,20 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CudaCompile Include="filter_cuda_kernels.cu" />
-    <CudaCompile Include="filter_cuda_utils.cu" />
+    <CudaCompile Include="kernel_launcher.cu" />
+    <CudaCompile Include="kernel_launcher_utils.cu" />
+    <CudaCompile Include="gaussian.cu" />
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpu_timer.h" />
     <ClInclude Include="cuda_timer.h" />
-    <ClInclude Include="cuda_utils.h" />
-    <ClInclude Include="filter_common.h" />
-    <ClInclude Include="filter_cuda_kernels.h" />
-    <ClInclude Include="filter_cuda_utils.h" />
+    <ClInclude Include="cuda_utils.cuh" />
+    <ClInclude Include="filter_types.h" />
+    <ClInclude Include="kernel_launcher.h" />
+    <ClInclude Include="kernel_launcher_utils.h" />
     <ClInclude Include="filter_interface.h" />
+    <ClInclude Include="gaussian.cuh" />
     <ClInclude Include="image_loader.h" />
   </ItemGroup>
   <ItemGroup>

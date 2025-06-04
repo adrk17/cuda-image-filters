@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "image_loader.h"
-#include "filter_common.h"
+#include "filter_types.h"
 #include "filter_interface.h"
 
 void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon=1);

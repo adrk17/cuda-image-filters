@@ -1,4 +1,4 @@
-#include "filter_cuda_utils.h"
+#include "kernel_launcher_utils.h"
 
 uchar* prepareMorphMask(const FilterParams& params) {
     cv::Mat mask = cv::getStructuringElement(params.morphShape, params.morphKernelSize);

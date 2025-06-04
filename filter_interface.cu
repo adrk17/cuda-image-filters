@@ -1,11 +1,4 @@
 #include "filter_interface.h"
-#include "filter_cuda_kernels.h"
-#include "filter_cuda_utils.h"
-#include <opencv2/imgproc.hpp>
-
-#include "cpu_timer.h"
-#include "cuda_timer.h"
-
 
 
 cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams& params) {

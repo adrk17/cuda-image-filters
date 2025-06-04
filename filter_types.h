@@ -1,5 +1,5 @@
-#ifndef FILTER_COMMON_H
-#define FILTER_COMMON_H
+#ifndef FILTER_TYPES_H
+#define FILTER_TYPES_H
 
 #include <opencv2/opencv.hpp>
 
