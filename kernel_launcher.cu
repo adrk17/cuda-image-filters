@@ -11,7 +11,7 @@ __constant__ uchar d_morphMask[MAX_KERNEL_AREA];
 // 1D kernel upload
 void uploadConstantKernel(const float* h_kernel, int kWidth) {
 	if (kWidth > MAX_KERNEL_WIDTH) {
-		std::cerr << "Too large kernel!\n";
+		std::cerr << "ERROR: Too large kernel!\n";
 		std::exit(EXIT_FAILURE);
 	}
 
@@ -19,12 +19,18 @@ void uploadConstantKernel(const float* h_kernel, int kWidth) {
 }
 
 // 2D morphological mask upload
-void uploadMorphMaskToConstant(const uchar* h_mask, int kWidth, int kHeight) {
+void uploadMorphMaskToConstant(const cv::Size kernelSize, const int morphShape){
+	cv::Mat mask = cv::getStructuringElement(morphShape, kernelSize);
+
+	int kWidth = mask.cols;
+	int kHeight = mask.rows;
+
 	if (kWidth * kHeight > MAX_KERNEL_AREA) {
 		std::cerr << "ERROR: Morphological mask exceeds MAX_KERNEL_AREA\n";
 		std::exit(EXIT_FAILURE);
 	}
-	CUDA_CHECK(cudaMemcpyToSymbol(d_morphMask, h_mask, kWidth * kHeight * sizeof(uchar), 0, cudaMemcpyHostToDevice));
+
+	CUDA_CHECK(cudaMemcpyToSymbol(d_morphMask, mask.data, kWidth * kHeight * sizeof(uchar), 0, cudaMemcpyHostToDevice));
 }
 
 
@@ -107,10 +113,10 @@ cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, 
 	int radius = kernelWidth / 2;
 	size_t sharedMemBytes = BLOCK_SIZE * (BLOCK_SIZE + 2 * radius) * sizeof(float);  
 
-	gaussianBlurXKernel<<<grid, block, sharedMemBytes >>> (d_input, d_temp, rows, cols, kernelWidth);
+	gaussianBlurXKernel<<<grid, block, sharedMemBytes>>> (d_input, d_temp, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
-	gaussianBlurYKernel<<<grid, block, sharedMemBytes >>> (d_temp, d_output, rows, cols, kernelWidth);
+	gaussianBlurYKernel<<<grid, block, sharedMemBytes>>> (d_temp, d_output, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
 
@@ -122,26 +128,69 @@ cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, 
 
 ////// EROSION //////
 
-__global__ void erosionKernel(const uchar* input, uchar* output, int rows, int cols, const uchar* mask, int kWidth, int kHeight) {
-	// PLACEHOLDER
-	int x = blockIdx.x * blockDim.x + threadIdx.x;
-	int y = blockIdx.y * blockDim.y + threadIdx.y;
+__global__ void erosionKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
+	extern __shared__ uchar tileErosion[];
+	int radiusX = kWidth / 2;
+	int radiusY = kHeight / 2;
+
+	const int tileWidth = BLOCK_SIZE + 2 * radiusX;
+	const int tileHeight = BLOCK_SIZE + 2 * radiusY;
+
+	int lx = threadIdx.x;
+	int ly = threadIdx.y;
+	int x = blockIdx.x * BLOCK_SIZE + lx;
+	int y = blockIdx.y * BLOCK_SIZE + ly;
+	int globalIdx = y * cols + x;
+
+	for (int dy = ly; dy < tileHeight; dy += blockDim.y) {
+		for (int dx = lx; dx < tileWidth; dx += blockDim.x) {
+			int imgX = clamp(blockIdx.x * BLOCK_SIZE + dx - radiusX, 0, cols - 1);
+			int imgY = clamp(blockIdx.y * BLOCK_SIZE + dy - radiusY, 0, rows - 1);
+			tileErosion[dy * tileWidth + dx] = input[imgY * cols + imgX];
+		}
+	}
+
+	__syncthreads();
+
 	if (x < cols && y < rows) {
-		int idx = y * cols + x;
-		output[idx] = input[idx];
+		uchar minVal = 255;
+
+		for (int j = 0; j < kHeight; ++j) {
+			for (int i = 0; i < kWidth; ++i) {
+				int maskIdx = j * kWidth + i;
+				if (d_morphMask[maskIdx] == 0) continue;
+
+				int tileX = lx + i;
+				int tileY = ly + j;
+
+				uchar val = tileErosion[tileY * tileWidth + tileX];
+				if (val < minVal) {
+					minVal = val;
+				}
+			}
+		}
+
+		output[globalIdx] = minVal;
 	}
 }
 
-cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int cols, const uchar* d_mask, cv::Size kernelSize, dim3 grid, dim3 block)
+cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
 {
-	erosionKernel<<<grid, block >>>(d_input, d_output, rows, cols, d_mask, kernelSize.width, kernelSize.height);
+	// Upload the morphological mask to constant memory
+	uploadMorphMaskToConstant(kernelSize, morphShape);
+
+	int radiusX = kernelSize.width / 2;
+	int radiusY = kernelSize.height / 2;
+	size_t sharedMemBytes = (BLOCK_SIZE + 2 * radiusX) * (BLOCK_SIZE + 2 * radiusY) * sizeof(uchar);
+
+	erosionKernel<<<grid, block >>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	return cudaSuccess;
 }
 
 
 ////// DILATION //////
 
-__global__ void dilationKernel(const uchar* input, uchar* output, int rows, int cols, const uchar* mask, int kWidth, int kHeight) {
+__global__ void dilationKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
 	// PLACEHOLDER
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -151,15 +200,15 @@ __global__ void dilationKernel(const uchar* input, uchar* output, int rows, int 
 	}
 }
 
-cudaError_t launchDilation(const uchar* d_input, uchar* d_output, int rows, int cols, const uchar* d_mask, cv::Size kernelSize, dim3 grid, dim3 block)
+cudaError_t launchDilation(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
 {
-	dilationKernel<<<grid, block>>>(d_input, d_output, rows, cols, d_mask, kernelSize.width, kernelSize.height);
+	dilationKernel<<<grid, block>>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	return cudaSuccess;
 }
 
 ////// OPENING //////
 
-__global__ void openingKernel(const uchar* input, uchar* output, int rows, int cols, const uchar* mask, int kWidth, int kHeight) {
+__global__ void openingKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
 	// PLACEHOLDER
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -169,15 +218,15 @@ __global__ void openingKernel(const uchar* input, uchar* output, int rows, int c
 	}
 }
 
-cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int cols, const uchar* d_mask, cv::Size kernelSize, dim3 grid, dim3 block)
+cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
 {
-	openingKernel<<<grid, block>>>(d_input, d_output, rows, cols, d_mask, kernelSize.width, kernelSize.height);
+	openingKernel<<<grid, block>>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	return cudaSuccess;
 }
 
 ////// CLOSING //////
 
-__global__ void closingKernel(const uchar* input, uchar* output, int rows, int cols, const uchar* mask, int kWidth, int kHeight) {
+__global__ void closingKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
 	// PLACEHOLDER
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
@@ -187,8 +236,8 @@ __global__ void closingKernel(const uchar* input, uchar* output, int rows, int c
 	}
 }
 
-cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int cols, const uchar* d_mask, cv::Size kernelSize, dim3 grid, dim3 block)
+cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
 {
-	closingKernel<<<grid, block >>>(d_input, d_output, rows, cols, d_mask, kernelSize.width, kernelSize.height);
+	closingKernel<<<grid, block >>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	return cudaSuccess;
 }

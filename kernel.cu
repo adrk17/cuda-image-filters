@@ -6,7 +6,7 @@
 #include "filter_types.h"
 #include "filter_interface.h"
 
-void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon=1);
+void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon=0.5);
 
 int main() {
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
@@ -17,8 +17,10 @@ int main() {
     FilterParams params;
 	params.kernelWidth = 9;
 	params.sigma = 5.0f;
+	params.morphShape = cv::MORPH_RECT;
+	params.morphKernelSize = cv::Size(5, 5); 
 
-    FilterType type = FilterType::GAUSSIAN_BLUR;
+    FilterType type = FilterType::EROSION;
 
 	cv::imshow("Input", input);
 

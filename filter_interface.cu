@@ -11,17 +11,17 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 	// Device pointers
     uchar* d_input = nullptr;
     uchar* d_output = nullptr;
-    uchar* d_mask = nullptr;
+    //uchar* d_mask = nullptr;
 
 	// Allocate device memory
     CUDA_CHECK(cudaMalloc(&d_input, size));
     CUDA_CHECK(cudaMalloc(&d_output, size));
     CUDA_CHECK(cudaMemcpy(d_input, input.data, size, cudaMemcpyHostToDevice));
 
-	// Only allocate mask if the filter is morphological
-    if (isMorphologicalFilter(type)) {
-        d_mask = prepareMorphMask(params);
-    }
+	//// Only allocate mask if the filter is morphological ---- not used when using __constant__ memory
+	 //   if (isMorphologicalFilter(type)) {
+	 //       d_mask = prepareMorphMask(params);
+	 //   }
 
 	// Define gpu kernel launch parameters
 	dim3 block(BLOCK_SIZE, BLOCK_SIZE);
@@ -42,19 +42,19 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
         break;
 
     case FilterType::EROSION: {
-        CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
+        CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
         break;
     }
 	case FilterType::DILATION: {
-		CUDA_CHECK(launchDilation(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
+		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
 	case FilterType::OPENING: {
-		CUDA_CHECK(launchOpening(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
+		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
 	case FilterType::CLOSING: {
-		CUDA_CHECK(launchClosing(d_input, d_output, rows, cols, d_mask, params.morphKernelSize, grid, block));
+		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
     default:  
@@ -72,7 +72,7 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
 
     CUDA_CHECK(cudaFree(d_input));
     CUDA_CHECK(cudaFree(d_output));
-    if (d_mask) CUDA_CHECK(cudaFree(d_mask));
+    //if (d_mask) CUDA_CHECK(cudaFree(d_mask));
 
     return result;
 }
