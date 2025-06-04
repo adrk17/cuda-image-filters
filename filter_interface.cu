@@ -37,7 +37,8 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
             std::cerr << "Kernel width must be an odd number and >= 3 for Gaussian blur!\n";
             return input.clone();
         }
-        CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelWidth, params.sigma, grid, block));
+        //CUDA_CHECK(launchGaussianBlurShared(d_input, d_output, rows, cols, params.kernelWidth, params.sigma, grid, block));
+		CUDA_CHECK(launchGaussianBlur(d_input, d_output, rows, cols, params.kernelWidth, params.sigma, grid, block));
         break;
 
     case FilterType::EROSION: {

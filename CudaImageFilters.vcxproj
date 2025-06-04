@@ -95,7 +95,6 @@
   <ItemGroup>
     <CudaCompile Include="kernel_launcher.cu" />
     <CudaCompile Include="kernel_launcher_utils.cu" />
-    <CudaCompile Include="gaussian.cu" />
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +105,6 @@
     <ClInclude Include="kernel_launcher.h" />
     <ClInclude Include="kernel_launcher_utils.h" />
     <ClInclude Include="filter_interface.h" />
-    <ClInclude Include="gaussian.cuh" />
     <ClInclude Include="image_loader.h" />
   </ItemGroup>
   <ItemGroup>

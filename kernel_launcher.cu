@@ -1,49 +1,124 @@
 #include "kernel_launcher.h"
 
+/// CONSTANT MEMORY MANAGEMENT /// -- Constant memory has to be used and declared in the same .cu file as the kernel that uses it. CUDA does not have a linker for constant memory, so it cannot be declared in a header file and used in multiple .cu files.
+
+// Gaussian (1D, float)
+__constant__ float d_constantKernel1D[MAX_KERNEL_WIDTH];
+
+// For morphological kernels (2D, uchar)
+__constant__ uchar d_morphMask[MAX_KERNEL_AREA];
+
+// 1D kernel upload
+void uploadConstantKernel(const float* h_kernel, int kWidth) {
+	if (kWidth > MAX_KERNEL_WIDTH) {
+		std::cerr << "Too large kernel!\n";
+		std::exit(EXIT_FAILURE);
+	}
+
+	CUDA_CHECK(cudaMemcpyToSymbol(d_constantKernel1D, h_kernel, kWidth * sizeof(float), 0, cudaMemcpyHostToDevice));
+}
+
+// 2D morphological mask upload
+void uploadMorphMaskToConstant(const uchar* h_mask, int kWidth, int kHeight) {
+	if (kWidth * kHeight > MAX_KERNEL_AREA) {
+		std::cerr << "ERROR: Morphological mask exceeds MAX_KERNEL_AREA\n";
+		std::exit(EXIT_FAILURE);
+	}
+	CUDA_CHECK(cudaMemcpyToSymbol(d_morphMask, h_mask, kWidth * kHeight * sizeof(uchar), 0, cudaMemcpyHostToDevice));
+}
+
+
 ////// GAUSSIAN BLUR //////
 
+__global__ void gaussianBlurXKernel(const uchar* input, float* temp, int rows, int cols, int kWidth) {
+	extern __shared__ float tile[];
+	int radius = kWidth / 2;
 
-float* allocateGaussianKernelGpu(int kWidth, float sigma) {
-	float* d_kernel = nullptr;
-	size_t size = kWidth * sizeof(float);
+	const int tileWidth = BLOCK_SIZE + 2 * radius;
+	const int tileHeight = BLOCK_SIZE;
 
-	float* h_kernel = generateGaussianKernel1D(kWidth, sigma);
+	int lx = threadIdx.x;
+	int ly = threadIdx.y;
+	int x = blockIdx.x * BLOCK_SIZE + lx;
+	int y = blockIdx.y * BLOCK_SIZE + ly;
+	int globalIdx = y * cols + x;
 
-	CUDA_CHECK(cudaMalloc(&d_kernel, size));
-	CUDA_CHECK(cudaMemcpy(d_kernel, h_kernel, size, cudaMemcpyHostToDevice));
-	free(h_kernel);
+	for (int dy = ly; dy < tileHeight; dy += blockDim.y) {
+		for (int dx = lx; dx < tileWidth; dx += blockDim.x) {
+			int imgX = clamp(blockIdx.x * BLOCK_SIZE + dx - radius, 0, cols - 1);
+			int imgY = clamp(blockIdx.y * BLOCK_SIZE + dy, 0, rows - 1);
+			tile[dy * tileWidth + dx] = static_cast<float>(input[imgY * cols + imgX]);
+		}
+	}
 
-	return d_kernel;
+	__syncthreads();
+
+	if (x < cols && y < rows) {
+		float sum = 0.0f;
+		for (int k = -radius; k <= radius; ++k) {
+			sum += d_constantKernel1D[k + radius] * tile[ly * tileWidth + lx + radius + k];
+		}
+		temp[globalIdx] = sum;
+	}
 }
+
+
+__global__ void gaussianBlurYKernel(const float* temp, uchar* output, int rows, int cols, int kWidth) {
+	extern __shared__ float tile[];
+	int radius = kWidth / 2;
+
+	const int tileHeight = BLOCK_SIZE + 2 * radius;
+	const int tileWidth = BLOCK_SIZE;
+
+	int lx = threadIdx.x;
+	int ly = threadIdx.y;
+	int x = blockIdx.x * BLOCK_SIZE + lx;
+	int y = blockIdx.y * BLOCK_SIZE + ly;
+	int globalIdx = y * cols + x;
+
+	for (int dy = ly; dy < tileHeight; dy += blockDim.y) {
+		for (int dx = lx; dx < tileWidth; dx += blockDim.x) {
+			int imgX = clamp(blockIdx.x * BLOCK_SIZE + dx, 0, cols - 1);
+			int imgY = clamp(blockIdx.y * BLOCK_SIZE + dy - radius, 0, rows - 1);
+			tile[dy * tileWidth + dx] = temp[imgY * cols + imgX];
+		}
+	}
+
+	__syncthreads();
+
+	if (x < cols && y < rows) {
+		float sum = 0.0f;
+		for (int k = -radius; k <= radius; ++k) {
+			sum += d_constantKernel1D[k + radius] * tile[(ly + radius + k) * tileWidth + lx];
+		}
+		output[globalIdx] = static_cast<uchar>(__float2int_rn(sum));
+	}
+}
+
 
 cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, int cols, int kernelWidth, float sigma, dim3 grid, dim3 block)
 {
-	float* d_kernel = allocateGaussianKernelGpu(kernelWidth, sigma);
+	float* h_kernel = generateGaussianKernel1D(kernelWidth, sigma);
+	uploadConstantKernel(h_kernel, kernelWidth);
 
 	float* d_temp;
 	CUDA_CHECK(cudaMalloc(&d_temp, rows * cols * sizeof(float)));
 
 	int radius = kernelWidth / 2;
-	size_t sharedMemBytesX =
-		kernelWidth * sizeof(float) +  // kernel 1D
-		BLOCK_SIZE * (BLOCK_SIZE + 2 * radius) * sizeof(float);  // tile (wider)
+	size_t sharedMemBytes = BLOCK_SIZE * (BLOCK_SIZE + 2 * radius) * sizeof(float);  
 
-	size_t sharedMemBytesY =
-		kernelWidth * sizeof(float) +  // kernel 1D
-		(BLOCK_SIZE + 2 * radius) * BLOCK_SIZE * sizeof(float);  // tile (higher)
-	gaussianBlurXKernel <<<grid, block, sharedMemBytesX >>>(d_input, d_temp, rows, cols, d_kernel, kernelWidth);
+	gaussianBlurXKernel<<<grid, block, sharedMemBytes >>> (d_input, d_temp, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
-	CUDA_CHECK(cudaDeviceSynchronize()); 
-	gaussianBlurYKernel <<<grid, block, sharedMemBytesY >>>(d_temp, d_output, rows, cols, d_kernel, kernelWidth);
+	CUDA_CHECK(cudaDeviceSynchronize());
+	gaussianBlurYKernel<<<grid, block, sharedMemBytes >>> (d_temp, d_output, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
 
-	cudaFree(d_kernel);
+	free(h_kernel);
 	cudaFree(d_temp);
 
 	return cudaSuccess;
 }
-
 
 ////// EROSION //////
 

@@ -8,9 +8,6 @@
     <CudaCompile Include="kernel_launcher_utils.cu">
       <Filter>SourceFiles\fitlers</Filter>
     </CudaCompile>
-    <CudaCompile Include="gaussian.cu">
-      <Filter>SourceFiles\fitlers\cuda_kernels</Filter>
-    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="HeaderFiles">
@@ -31,12 +28,6 @@
     <Filter Include="SourceFiles\fitlers">
       <UniqueIdentifier>{fc431723-6dc8-4b7c-96ef-924dfe484799}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SourceFiles\fitlers\cuda_kernels">
-      <UniqueIdentifier>{e58b6bdc-2b28-40ed-8dd4-29fd51233d60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HeaderFiles\filters\cuda_kernels">
-      <UniqueIdentifier>{7b4b4924-217d-4f7a-8b37-fb0a175ce126}</UniqueIdentifier>
-    </Filter>
     <Filter Include="HeaderFiles\utils\timers">
       <UniqueIdentifier>{47ec3e92-80ac-489c-804d-a38dbc4ef078}</UniqueIdentifier>
     </Filter>
@@ -45,6 +36,9 @@
     </Filter>
     <Filter Include="HeaderFiles\utils\cuda">
       <UniqueIdentifier>{e3498174-4051-45c1-90db-300df8dd85b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles\utils">
+      <UniqueIdentifier>{38b3e6f6-d17b-4835-88a8-f3f74f00ff13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +53,6 @@
     </ClInclude>
     <ClInclude Include="filter_interface.h">
       <Filter>HeaderFiles\filters</Filter>
-    </ClInclude>
-    <ClInclude Include="gaussian.cuh">
-      <Filter>HeaderFiles\filters\cuda_kernels</Filter>
     </ClInclude>
     <ClInclude Include="cpu_timer.h">
       <Filter>HeaderFiles\utils\timers</Filter>
