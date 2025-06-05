@@ -46,15 +46,15 @@ cv::Mat applyFilterGpu(const cv::Mat& input, FilterType type, const FilterParams
         break;
     }
 	case FilterType::DILATION: {
-		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
+		CUDA_CHECK(launchDilation(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
 	case FilterType::OPENING: {
-		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
+		CUDA_CHECK(launchOpening(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
 	case FilterType::CLOSING: {
-		CUDA_CHECK(launchErosion(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
+		CUDA_CHECK(launchClosing(d_input, d_output, rows, cols, params.morphKernelSize, params.morphShape, grid, block));
 		break;
 	}
     default:  

@@ -6,41 +6,39 @@
 #include "filter_types.h"
 #include "filter_interface.h"
 
-void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon=0.5);
+void testEveryKernel(FilterParams& params, cv::Mat image, bool showImg = true);
+void showResizedIfNeeded(const std::string& winName, const cv::Mat& img, int maxWidth = 1000, int maxHeight = 1200);
 
 int main() {
     cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-    std::string path = "./lena.png";
+    std::string path = "./galaxy.jpeg";
     cv::Mat input = ImageLoader::loadImage(path);
 
     FilterParams params;
 	params.kernelWidth = 9;
 	params.sigma = 5.0f;
-	params.morphShape = cv::MORPH_RECT;
-	params.morphKernelSize = cv::Size(5, 5); 
+	params.morphShape = cv::MORPH_CROSS;
+	params.morphKernelSize = cv::Size(8, 5); 
 
-    FilterType type = FilterType::EROSION;
+   /* FilterType type = FilterType::CLOSING;
 
 	cv::imshow("Input", input);
-
 	cv::Mat outputCpu = applyFilterCpu(input, type, params);
 	cv::imshow("Output CPU", outputCpu);
-
 	cv::Mat outputGpu = applyFilterGpu(input, type, params);
 	cv::imshow("Output GPU", outputGpu);
-
-
 	cv::imwrite("output_cpu.png", outputCpu);
 	cv::imwrite("output_gpu.png", outputGpu);
-
-	checkDifferance(outputCpu, outputGpu, 1);
+	checkDifferance(outputCpu, outputGpu);
 	
-	cv::waitKey(0);
+	cv::waitKey(0);*/
+
+	testEveryKernel(params, input, true);
     return 0;
 }
 
-void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon) {
+void checkDifferance(cv::Mat& img1, cv::Mat& img2, bool showImg) {
 	if (img1.size() != img2.size()) {
 		std::cerr << "Images are not the same size!" << std::endl;
 	}
@@ -49,7 +47,8 @@ void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon) {
 	cv::absdiff(img1, img2, diff);
 	cv::Mat diffDisplay;
 	diff.convertTo(diffDisplay, CV_8U, 10); // alpha - scale the difference for better visibility
-	cv::imshow("Difference", diffDisplay);
+	if (showImg)
+		showResizedIfNeeded("Difference", diffDisplay);
 
 	double minVal, maxVal;
 	cv::minMaxLoc(diff, &minVal, &maxVal);
@@ -83,4 +82,51 @@ void checkDifferance(cv::Mat& img1, cv::Mat& img2, int epsilon) {
 			std::cout << "Differance " << i << ": " << count << std::endl;
 		}
 	}
+}
+
+void testEveryKernel(FilterParams& params, cv::Mat image, bool showImg) {
+	std::vector<std::tuple<FilterType, std::string>> filterTypes = {
+		{FilterType::GAUSSIAN_BLUR, "Gaussian Blur"},
+		{FilterType::EROSION, "Erosion"},
+		{FilterType::DILATION, "Dilation"},
+		{FilterType::OPENING, "Opening"},
+		{FilterType::CLOSING, "Closing"}
+	};
+
+
+	for (auto filterTuple : filterTypes)
+	{
+		FilterType type;
+		std::string filterName;
+		std::tie(type, filterName) = filterTuple;
+		std::cout << "\n================ " << filterName << " ================\n\n";
+		cv::Mat outputCpu = applyFilterCpu(image, type, params);
+		cv::Mat outputGpu = applyFilterGpu(image, type, params);
+		
+		checkDifferance(outputCpu, outputGpu, showImg);
+		if (showImg)
+		{
+			showResizedIfNeeded("Output CPU - " + filterName, outputCpu);
+			showResizedIfNeeded("Output GPU - " + filterName, outputGpu);
+			cv::imwrite("output_cpu_" + filterName + ".png", outputCpu);
+			cv::imwrite("output_gpu_" + filterName + ".png", outputGpu);
+			cv::waitKey(0);
+		}
+
+		std::cout << "\n================ " << filterName << " ================\n\n\n\n";
+	}
+}
+
+void showResizedIfNeeded(const std::string& winName, const cv::Mat& img, int maxWidth, int maxHeight) {
+	cv::Mat display = img;
+
+	if (img.cols > maxWidth || img.rows > maxHeight) {
+		double scaleW = static_cast<double>(maxWidth) / img.cols;
+		double scaleH = static_cast<double>(maxHeight) / img.rows;
+		double scale = std::min(scaleW, scaleH);
+
+		cv::resize(img, display, cv::Size(), scale, scale);
+	}
+
+	cv::imshow(winName, display);
 }

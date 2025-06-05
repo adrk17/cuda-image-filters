@@ -114,6 +114,7 @@
     <ClCompile Include="filter_interface.cu" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="galaxy.jpeg" />
     <Image Include="lena.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

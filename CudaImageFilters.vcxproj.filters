@@ -74,6 +74,9 @@
     <Image Include="lena.png">
       <Filter>ResourceFiles</Filter>
     </Image>
+    <Image Include="galaxy.jpeg">
+      <Filter>ResourceFiles</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="filter_interface.cu">
