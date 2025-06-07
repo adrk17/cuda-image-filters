@@ -24,20 +24,7 @@ int main() {
 	params.morphShape = cv::MORPH_CROSS;
 	params.morphKernelSize = cv::Size(8, 5);
 
-	/* FilterType type = FilterType::CLOSING;
-
-	 cv::imshow("Input", input);
-	 cv::Mat outputCpu = applyFilterOpenCvCpu(input, type, params);
-	 cv::imshow("Output CPU", outputCpu);
-	 cv::Mat outputGpu = applyFilterGpu(input, type, params);
-	 cv::imshow("Output GPU", outputGpu);
-	 cv::imwrite("output_cpu.png", outputCpu);
-	 cv::imwrite("output_gpu.png", outputGpu);
-	 checkDifferance(outputCpu, outputGpu);
-
-	 cv::waitKey(0);*/
-
-	benchmarkEveryKernel(params, input, 30, 0);
+	benchmarkEveryKernel(params, input, 5, 0);
 
 	return 0;
 }

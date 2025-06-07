@@ -126,7 +126,7 @@ cv::Mat applyFilterOpenCvGpu(const cv::Mat& input, FilterType type, const Filter
     }
     
     d_output.download(output);
-
+    cv::cuda::Stream::Null().waitForCompletion();
     timer.stop();
 
     if (verbose)
@@ -323,6 +323,7 @@ cv::Mat applyFilterOpenCvGpuIterations(const cv::Mat& input, FilterType type, co
         }
 
         d_output.download(output);
+        cv::cuda::Stream::Null().waitForCompletion();
         timer.stop();
 
         totalMs += timer.elapsedMs();

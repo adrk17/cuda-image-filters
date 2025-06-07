@@ -125,7 +125,6 @@ cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, 
 	CUDA_CHECK(cudaDeviceSynchronize());
 	gaussianBlurYKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
-	CUDA_CHECK(cudaDeviceSynchronize());
 
 	if (elapsedMs) {
 		timer.end();
@@ -310,7 +309,7 @@ cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int c
 	// Dilatation
 	dilationKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	CUDA_CHECK(cudaGetLastError());
-	CUDA_CHECK(cudaDeviceSynchronize());
+
 
 	if (elapsedMs) {
 		timer.end();
@@ -348,7 +347,7 @@ cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int c
 	// Erosion
 	erosionKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	CUDA_CHECK(cudaGetLastError());
-	CUDA_CHECK(cudaDeviceSynchronize());
+
 
 	if (elapsedMs) {
 		timer.end();
