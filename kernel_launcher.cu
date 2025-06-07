@@ -1,5 +1,7 @@
 #include "kernel_launcher.h"
 
+#include "cuda_timer.h"
+
 /// CONSTANT MEMORY MANAGEMENT /// -- Constant memory has to be used and declared in the same .cu file as the kernel that uses it. CUDA does not have a linker for constant memory, so it cannot be declared in a header file and used in multiple .cu files.
 
 // Gaussian (1D, float)
@@ -19,7 +21,7 @@ void uploadConstantKernel(const float* h_kernel, int kWidth) {
 }
 
 // 2D morphological mask upload
-void uploadMorphMaskToConstant(const cv::Size kernelSize, const int morphShape){
+void uploadMorphMaskToConstant(const cv::Size kernelSize, const int morphShape) {
 	cv::Mat mask = cv::getStructuringElement(morphShape, kernelSize);
 
 	int kWidth = mask.cols;
@@ -102,7 +104,7 @@ __global__ void gaussianBlurYKernel(const float* temp, uchar* output, int rows, 
 }
 
 
-cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, int cols, int kernelWidth, float sigma, dim3 grid, dim3 block)
+cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, int cols, int kernelWidth, float sigma, dim3 grid, dim3 block, float* elapsedMs)
 {
 	float* h_kernel = generateGaussianKernel1D(kernelWidth, sigma);
 	uploadConstantKernel(h_kernel, kernelWidth);
@@ -111,14 +113,24 @@ cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, 
 	CUDA_CHECK(cudaMalloc(&d_temp, rows * cols * sizeof(float)));
 
 	int radius = kernelWidth / 2;
-	size_t sharedMemBytes = BLOCK_SIZE * (BLOCK_SIZE + 2 * radius) * sizeof(float);  
+	size_t sharedMemBytes = BLOCK_SIZE * (BLOCK_SIZE + 2 * radius) * sizeof(float);
 
-	gaussianBlurXKernel<<<grid, block, sharedMemBytes>>> (d_input, d_temp, rows, cols, kernelWidth);
+	CudaTimer timer;
+	if (elapsedMs) {
+		timer.begin();
+	}
+
+	gaussianBlurXKernel << <grid, block, sharedMemBytes >> > (d_input, d_temp, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
-	gaussianBlurYKernel<<<grid, block, sharedMemBytes>>> (d_temp, d_output, rows, cols, kernelWidth);
+	gaussianBlurYKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelWidth);
 	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
+
+	if (elapsedMs) {
+		timer.end();
+		*elapsedMs = timer.elapsedMs();
+	}
 
 	free(h_kernel);
 	cudaFree(d_temp);
@@ -174,7 +186,7 @@ __global__ void erosionKernel(const uchar* input, uchar* output, int rows, int c
 	}
 }
 
-cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
+cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block, float* elapsedMs)
 {
 	// Upload the morphological mask to constant memory
 	uploadMorphMaskToConstant(kernelSize, morphShape);
@@ -183,7 +195,19 @@ cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int c
 	int radiusY = kernelSize.height / 2;
 	size_t sharedMemBytes = (BLOCK_SIZE + 2 * radiusX) * (BLOCK_SIZE + 2 * radiusY) * sizeof(uchar);
 
-	erosionKernel<<<grid, block, sharedMemBytes>>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	CudaTimer timer;
+	if (elapsedMs) {
+		timer.begin();
+	}
+
+	erosionKernel << <grid, block, sharedMemBytes >> > (d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	CUDA_CHECK(cudaGetLastError());
+
+	if (elapsedMs) {
+		timer.end();
+		*elapsedMs = timer.elapsedMs();
+	}
+
 	return cudaSuccess;
 }
 
@@ -236,7 +260,7 @@ __global__ void dilationKernel(const uchar* input, uchar* output, int rows, int 
 	}
 }
 
-cudaError_t launchDilation(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
+cudaError_t launchDilation(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block, float* elapsedMs)
 {
 	// Upload the morphological mask to constant memory
 	uploadMorphMaskToConstant(kernelSize, morphShape);
@@ -245,13 +269,24 @@ cudaError_t launchDilation(const uchar* d_input, uchar* d_output, int rows, int 
 	int radiusY = kernelSize.height / 2;
 	size_t sharedMemBytes = (BLOCK_SIZE + 2 * radiusX) * (BLOCK_SIZE + 2 * radiusY) * sizeof(uchar);
 
-	dilationKernel<<<grid, block, sharedMemBytes>>>(d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	CudaTimer timer;
+	if (elapsedMs) {
+		timer.begin();
+	}
+
+	dilationKernel << <grid, block, sharedMemBytes >> > (d_input, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	CUDA_CHECK(cudaGetLastError());
+
+	if (elapsedMs) {
+		timer.end();
+		*elapsedMs = timer.elapsedMs();
+	}
 	return cudaSuccess;
 }
 
 ////// OPENING //////
 
-cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
+cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block, float* elapsedMs)
 {
 	uploadMorphMaskToConstant(kernelSize, morphShape);
 
@@ -262,15 +297,25 @@ cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int c
 	int radiusY = kernelSize.height / 2;
 	size_t sharedMemBytes = (BLOCK_SIZE + 2 * radiusX) * (BLOCK_SIZE + 2 * radiusY) * sizeof(uchar);
 
-	// Erosion
-	erosionKernel <<<grid, block, sharedMemBytes>>> (d_input, d_temp, rows, cols, kernelSize.width, kernelSize.height);
-	CUDA_CHECK(cudaGetLastError());
+	CudaTimer timer;
+	if (elapsedMs) {
+		timer.begin();
+	}
 
+	// Erosion
+	erosionKernel << <grid, block, sharedMemBytes >> > (d_input, d_temp, rows, cols, kernelSize.width, kernelSize.height);
+	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
 
 	// Dilatation
-	dilationKernel <<<grid, block, sharedMemBytes>>> (d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	dilationKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	CUDA_CHECK(cudaGetLastError());
+	CUDA_CHECK(cudaDeviceSynchronize());
+
+	if (elapsedMs) {
+		timer.end();
+		*elapsedMs = timer.elapsedMs();
+	}
 
 	CUDA_CHECK(cudaFree(d_temp));
 	return cudaSuccess;
@@ -278,9 +323,7 @@ cudaError_t launchOpening(const uchar* d_input, uchar* d_output, int rows, int c
 
 ////// CLOSING //////
 
-
-
-cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block)
+cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int cols, cv::Size kernelSize, int morphShape, dim3 grid, dim3 block, float* elapsedMs)
 {
 	uploadMorphMaskToConstant(kernelSize, morphShape);
 
@@ -291,15 +334,26 @@ cudaError_t launchClosing(const uchar* d_input, uchar* d_output, int rows, int c
 	int radiusY = kernelSize.height / 2;
 	size_t sharedMemBytes = (BLOCK_SIZE + 2 * radiusX) * (BLOCK_SIZE + 2 * radiusY) * sizeof(uchar);
 
-	// Dilatation
-	dilationKernel <<<grid, block, sharedMemBytes >>>(d_input, d_temp, rows, cols, kernelSize.width, kernelSize.height);
-	CUDA_CHECK(cudaGetLastError());
 
+	CudaTimer timer;
+	if (elapsedMs) {
+		timer.begin();
+	}
+
+	// Dilatation
+	dilationKernel << <grid, block, sharedMemBytes >> > (d_input, d_temp, rows, cols, kernelSize.width, kernelSize.height);
+	CUDA_CHECK(cudaGetLastError());
 	CUDA_CHECK(cudaDeviceSynchronize());
 
 	// Erosion
-	erosionKernel<<<grid, block, sharedMemBytes >>>(d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
+	erosionKernel << <grid, block, sharedMemBytes >> > (d_temp, d_output, rows, cols, kernelSize.width, kernelSize.height);
 	CUDA_CHECK(cudaGetLastError());
+	CUDA_CHECK(cudaDeviceSynchronize());
+
+	if (elapsedMs) {
+		timer.end();
+		*elapsedMs = timer.elapsedMs();
+	}
 
 	CUDA_CHECK(cudaFree(d_temp));
 	return cudaSuccess;

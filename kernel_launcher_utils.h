@@ -5,7 +5,6 @@
 #include "cuda_utils.cuh"
 #include "filter_types.h"
 
-//uchar* prepareMorphMask(const FilterParams& params);
 float* generateGaussianKernel1D(int size, float sigma);
 bool isMorphologicalFilter(FilterType type);
 
