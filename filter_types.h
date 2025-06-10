@@ -3,6 +3,9 @@
 
 #include <opencv2/opencv.hpp>
 
+/**
+ * Enum class representing different filter types for image processing.
+ */
 enum class FilterType {
     GAUSSIAN_BLUR,
     EROSION,
@@ -11,6 +14,10 @@ enum class FilterType {
     CLOSING
 };
 
+/**
+ * Struct containing parameters for various filters.
+ * These parameters can be adjusted based on the filter type.
+ */
 struct FilterParams {
     // GaussianBlur
     int kernelWidth = 5;

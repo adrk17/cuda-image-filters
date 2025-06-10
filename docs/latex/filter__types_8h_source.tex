@@ -1,0 +1,30 @@
+\doxysection{filter\+\_\+types.\+h}
+\hypertarget{filter__types_8h_source}{}\label{filter__types_8h_source}\mbox{\hyperlink{filter__types_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FILTER\_TYPES\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FILTER\_TYPES\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <opencv2/opencv.hpp>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{enum\ class}\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94fa31b040a971fe48baed9ed4e8807be11f}{GAUSSIAN\_BLUR}},}
+\DoxyCodeLine{00011\ \ \ \ \ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94faa8485ec48a9ef4f4314b3b0e2b3ae5ab}{EROSION}},}
+\DoxyCodeLine{00012\ \ \ \ \ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94faac424cdfa9d9af27621f7da8a13c34cb}{DILATION}},}
+\DoxyCodeLine{00013\ \ \ \ \ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94fa71a74f5026f5642a42a229e04cf1efdc}{OPENING}},}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94faa71a44c4c886bfc66b1edd511e6a677e}{CLOSING}}}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_filter_params}{FilterParams}}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ GaussianBlur}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_filter_params_ab4c5517cee34e48ebd049b3a3767728b}{kernelWidth}}\ =\ 5;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{struct_filter_params_a92509d870e58ded810d200d3a1b2bee8}{sigma}}\ =\ 1.5;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{comment}{//\ Morphology\ -\/\ Erosion,\ Dilation,\ Opening,\ Closing}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_filter_params_a3aa80c12b160d41421d915de300b93de}{morphShape}}\ =\ cv::MORPH\_RECT;}
+\DoxyCodeLine{00028\ \ \ \ \ cv::Size\ \mbox{\hyperlink{struct_filter_params_a39c062660344c6030ae2a80d3e4a52a6}{morphKernelSize}}\ =\ \{\ 3,\ 3\ \};}
+\DoxyCodeLine{00029\ \};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,133 @@
+\doxysection{kernel.\+cu File Reference}
+\hypertarget{kernel_8cu}{}\label{kernel_8cu}\index{kernel.cu@{kernel.cu}}
+{\ttfamily \#include "{}cuda\+\_\+runtime.\+h"{}}\newline
+{\ttfamily \#include "{}device\+\_\+launch\+\_\+parameters.\+h"{}}\newline
+{\ttfamily \#include $<$opencv2/opencv.\+hpp$>$}\newline
+{\ttfamily \#include "{}image\+\_\+loader.\+h"{}}\newline
+{\ttfamily \#include "{}filter\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}filter\+\_\+interface.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{kernel_8cu_ae4eeccaf9b52ab72066ac678e89be836}{test\+Every\+Kernel}} (\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, cv\+::\+Mat image, int verbose=1)
+\begin{DoxyCompactList}\small\item\em Tests all supported filters (Gaussian blur, erosion, dilation, opening, closing) on the provided image. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kernel_8cu_a731fc475e448305dddb822bb2a018d1e}{show\+Resized\+If\+Needed}} (const std\+::string \&win\+Name, const cv\+::\+Mat \&img, int max\+Width=1000, int max\+Height=1200)
+\begin{DoxyCompactList}\small\item\em Displays an image in a window, resizing it if it exceeds the specified maximum dimensions. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kernel_8cu_adaaf88d0e002316b3be13d9a05e49bbe}{benchmark\+Every\+Kernel}} (\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, cv\+::\+Mat image, int iterations, int verbose=0)
+\begin{DoxyCompactList}\small\item\em Benchmarks all supported filters by running each for a specified number of iterations. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{kernel_8cu_acb62dd7690794a4adf4b1fb580596c1a}{check\+Differance}} (const cv\+::\+Mat \&img1, const cv\+::\+Mat \&img2, int verbose=1, int border\+Size=10, int diff\+Threshold=0)
+\begin{DoxyCompactList}\small\item\em Compares two images and reports their differences. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{kernel_8cu_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Main entry point of the program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{kernel_8cu_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel_8cu_adaaf88d0e002316b3be13d9a05e49bbe}\index{kernel.cu@{kernel.cu}!benchmarkEveryKernel@{benchmarkEveryKernel}}
+\index{benchmarkEveryKernel@{benchmarkEveryKernel}!kernel.cu@{kernel.cu}}
+\doxysubsubsection{\texorpdfstring{benchmarkEveryKernel()}{benchmarkEveryKernel()}}
+{\footnotesize\ttfamily \label{kernel_8cu_adaaf88d0e002316b3be13d9a05e49bbe} 
+void benchmark\+Every\+Kernel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{cv\+::\+Mat}]{image}{, }\item[{int}]{iterations}{, }\item[{int}]{verbose}{ = {\ttfamily 0}}\end{DoxyParamCaption})}
+
+
+
+Benchmarks all supported filters by running each for a specified number of iterations. 
+
+For each filter type, applies the filter using Open\+CV CPU, custom CUDA, and Open\+CV CUDA implementations. Measures and prints the average execution time for each method. Optionally displays and saves output images.
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & Filter parameters to use for all filters. \\
+\hline
+{\em image} & Input image to filter. \\
+\hline
+{\em iterations} & Number of times to run each filter for timing. \\
+\hline
+{\em verbose} & Verbosity level (0 = silent, 1 = log info, 2 = log info and show images). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel_8cu_acb62dd7690794a4adf4b1fb580596c1a}\index{kernel.cu@{kernel.cu}!checkDifferance@{checkDifferance}}
+\index{checkDifferance@{checkDifferance}!kernel.cu@{kernel.cu}}
+\doxysubsubsection{\texorpdfstring{checkDifferance()}{checkDifferance()}}
+{\footnotesize\ttfamily \label{kernel_8cu_acb62dd7690794a4adf4b1fb580596c1a} 
+void check\+Differance (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{img1}{, }\item[{const cv\+::\+Mat \&}]{img2}{, }\item[{int}]{verbose}{ = {\ttfamily 1}, }\item[{int}]{border\+Size}{ = {\ttfamily 10}, }\item[{int}]{diff\+Threshold}{ = {\ttfamily 0}}\end{DoxyParamCaption})}
+
+
+
+Compares two images and reports their differences. 
+
+Computes absolute difference, min/max/mean/median difference, and counts pixels with significant differences. Separates border and inner differences, and optionally displays the difference image and prints a histogram.
+
+
+\begin{DoxyParams}{Parameters}
+{\em img1} & First image to compare. \\
+\hline
+{\em img2} & Second image to compare. \\
+\hline
+{\em verbose} & Verbosity level (0 = summary, 1 = detailed, 2 = show difference image). \\
+\hline
+{\em border\+Size} & Size of the border region to consider for border differences. \\
+\hline
+{\em diff\+Threshold} & Pixel difference threshold to count as significant. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel_8cu_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{kernel.cu@{kernel.cu}!main@{main}}
+\index{main@{main}!kernel.cu@{kernel.cu}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{kernel_8cu_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Main entry point of the program. 
+
+Loads an input image, sets up filter parameters, and benchmarks all supported filters (Gaussian blur, erosion, dilation, opening, closing) using CPU, custom CUDA, and Open\+CV CUDA implementations. Prints average execution times for each method.
+
+\begin{DoxyReturn}{Returns}
+0 on successful execution. 
+\end{DoxyReturn}
+\Hypertarget{kernel_8cu_a731fc475e448305dddb822bb2a018d1e}\index{kernel.cu@{kernel.cu}!showResizedIfNeeded@{showResizedIfNeeded}}
+\index{showResizedIfNeeded@{showResizedIfNeeded}!kernel.cu@{kernel.cu}}
+\doxysubsubsection{\texorpdfstring{showResizedIfNeeded()}{showResizedIfNeeded()}}
+{\footnotesize\ttfamily \label{kernel_8cu_a731fc475e448305dddb822bb2a018d1e} 
+void show\+Resized\+If\+Needed (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{win\+Name}{, }\item[{const cv\+::\+Mat \&}]{img}{, }\item[{int}]{max\+Width}{ = {\ttfamily 1000}, }\item[{int}]{max\+Height}{ = {\ttfamily 1200}}\end{DoxyParamCaption})}
+
+
+
+Displays an image in a window, resizing it if it exceeds the specified maximum dimensions. 
+
+If the image is larger than max\+Width or max\+Height, it is scaled down to fit within those bounds. The image is then shown in a window with the given name.
+
+
+\begin{DoxyParams}{Parameters}
+{\em win\+Name} & Name of the display window. \\
+\hline
+{\em img} & Image to display. \\
+\hline
+{\em max\+Width} & Maximum allowed width for display (default 1000). \\
+\hline
+{\em max\+Height} & Maximum allowed height for display (default 1200). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel_8cu_ae4eeccaf9b52ab72066ac678e89be836}\index{kernel.cu@{kernel.cu}!testEveryKernel@{testEveryKernel}}
+\index{testEveryKernel@{testEveryKernel}!kernel.cu@{kernel.cu}}
+\doxysubsubsection{\texorpdfstring{testEveryKernel()}{testEveryKernel()}}
+{\footnotesize\ttfamily \label{kernel_8cu_ae4eeccaf9b52ab72066ac678e89be836} 
+void test\+Every\+Kernel (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{cv\+::\+Mat}]{image}{, }\item[{int}]{verbose}{ = {\ttfamily 1}}\end{DoxyParamCaption})}
+
+
+
+Tests all supported filters (Gaussian blur, erosion, dilation, opening, closing) on the provided image. 
+
+For each filter type, applies the filter using Open\+CV CPU, custom CUDA, and Open\+CV CUDA implementations. Compares the results and, if verbose is enabled, displays and saves the output images.
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & Filter parameters to use for all filters. \\
+\hline
+{\em image} & Input image to filter. \\
+\hline
+{\em verbose} & Verbosity level (0 = silent, 1 = log info, 2 = log info and show images). \\
+\hline
+\end{DoxyParams}

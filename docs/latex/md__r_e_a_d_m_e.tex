@@ -1,0 +1,40 @@
+\chapter{CUDA Image Filters }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{CUDA Image Filters@{CUDA Image Filters}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{\texorpdfstring{Installation guide}{Installation guide}}\label{md__r_e_a_d_m_e_autotoc_md1}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysubsection{\texorpdfstring{Step 1\+: Install vcpkg}{Step 1\+: Install vcpkg}}\label{md__r_e_a_d_m_e_autotoc_md2}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{Clone the vcpkg Repository}{Clone the vcpkg Repository}}\label{md__r_e_a_d_m_e_autotoc_md3}
+Open {\bfseries{Command Prompt}} and run the following command\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/microsoft/vcpkg.git}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Bootstrap vcpkg}{Bootstrap vcpkg}}\label{md__r_e_a_d_m_e_autotoc_md4}
+Navigate to the cloned vcpkg directory and run the bootstrap script\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ .\(\backslash\)vcpkg}
+\DoxyCodeLine{bootstrap-\/vcpkg.bat}
+
+\end{DoxyCode}
+
+
+This will build vcpkg and set up the necessary environment.\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{\texorpdfstring{Step 2\+: Integrate vcpkg with Visual Studio}{Step 2\+: Integrate vcpkg with Visual Studio}}\label{md__r_e_a_d_m_e_autotoc_md5}
+Run the following command from the vcpkg installation foder to integrate vcpkg with Visual Studio\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./vcpkg.exe\ integrate\ install}
+
+\end{DoxyCode}
+
+
+This allows Visual Studio to automatically detect and use libraries installed via vcpkg.\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{\texorpdfstring{Step 3\+: Build the project}{Step 3\+: Build the project}}\label{md__r_e_a_d_m_e_autotoc_md6}
+vcpkg should automatically download and install the required dependencies while building the project in Visual Studio, based on the {\ttfamily vcpkg.\+json} manifest file.\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{\texorpdfstring{Step 4\+: Not visible opencv2 workaround}{Step 4\+: Not visible opencv2 workaround}}\label{md__r_e_a_d_m_e_autotoc_md7}
+If the paths to the Open\+CV libraries are not visible in Visual Studio, you should go to the {\ttfamily vcpkg\+\_\+installed/x64-\/windows/x64-\/windows/include/opencv4} folder and move the {\ttfamily opencv2} folder outside {\ttfamily opencv4}, to {\ttfamily vcpkg\+\_\+installed/x64-\/windows/x64-\/windows/include} folder. This is a workaround for the issue where Open\+CV libraries are not detected properly in Visual Studio because the {\ttfamily opencv2} folder is nested inside {\ttfamily opencv4}. This should make the Open\+CV libraries visible in Visual Studio. You can also remove the {\ttfamily opencv4} folder if you want to keep the structure clean.
+
+Side note\+: The best practice is to keep the {\ttfamily opencv2} folder inside {\ttfamily opencv4} and use the correct include paths in your project settings, but this workaround is a quick fix for the issue and i couldn\textquotesingle{}t find a better working solution. 

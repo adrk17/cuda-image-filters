@@ -1,0 +1,25 @@
+\doxysection{kernel\+\_\+launcher.\+h}
+\hypertarget{kernel__launcher_8h_source}{}\label{kernel__launcher_8h_source}\mbox{\hyperlink{kernel__launcher_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ KERNEL\_LAUNCHER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ KERNEL\_LAUNCHER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}cuda\_runtime.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <device\_launch\_parameters.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{filter__types_8h}{filter\_types.h}}"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{kernel__launcher__utils_8h}{kernel\_launcher\_utils.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00027\ cudaError\_t\ \mbox{\hyperlink{kernel__launcher_8h_a150410434fc1162c8a3220a85369314e}{launchGaussianBlur}}(\textcolor{keyword}{const}\ uchar*\ d\_input,\ uchar*\ d\_output,\ \textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols,\ \textcolor{keywordtype}{int}\ kernelWidth,\ \textcolor{keywordtype}{float}\ sigma,\ dim3\ grid,\ dim3\ block,\ \textcolor{keywordtype}{float}*\ elapsedMs);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00046\ cudaError\_t\ \mbox{\hyperlink{kernel__launcher_8h_a2320f6fdfcedcf13922154ca6d28a879}{launchErosion}}(\textcolor{keyword}{const}\ uchar*\ d\_input,\ uchar*\ d\_output,\ \textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols,\ cv::Size\ kernelSize,\ \textcolor{keywordtype}{int}\ morphShape,\ dim3\ grid,\ dim3\ block,\ \textcolor{keywordtype}{float}*\ elapsedMs);}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00065\ cudaError\_t\ \mbox{\hyperlink{kernel__launcher_8h_ac0a61c27d48fb7025ef873d422d844bd}{launchDilation}}(\textcolor{keyword}{const}\ uchar*\ d\_input,\ uchar*\ d\_output,\ \textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols,\ cv::Size\ kernelSize,\ \textcolor{keywordtype}{int}\ morphShape,\ dim3\ grid,\ dim3\ block,\ \textcolor{keywordtype}{float}*\ elapsedMs);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00083\ cudaError\_t\ \mbox{\hyperlink{kernel__launcher_8h_a83be2bbba0b70b1ba71500a46ae15597}{launchOpening}}(\textcolor{keyword}{const}\ uchar*\ d\_input,\ uchar*\ d\_output,\ \textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols,\ cv::Size\ kernelSize,\ \textcolor{keywordtype}{int}\ morphShape,\ dim3\ grid,\ dim3\ block,\ \textcolor{keywordtype}{float}*\ elapsedMs);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00101\ cudaError\_t\ \mbox{\hyperlink{kernel__launcher_8h_a3a9d6de90e2ba2e1c10ba1a8b1f09d75}{launchClosing}}(\textcolor{keyword}{const}\ uchar*\ d\_input,\ uchar*\ d\_output,\ \textcolor{keywordtype}{int}\ rows,\ \textcolor{keywordtype}{int}\ cols,\ cv::Size\ kernelSize,\ \textcolor{keywordtype}{int}\ morphShape,\ dim3\ grid,\ dim3\ block,\ \textcolor{keywordtype}{float}*\ elapsedMs);}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

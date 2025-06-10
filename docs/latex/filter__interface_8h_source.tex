@@ -1,0 +1,33 @@
+\doxysection{filter\+\_\+interface.\+h}
+\hypertarget{filter__interface_8h_source}{}\label{filter__interface_8h_source}\mbox{\hyperlink{filter__interface_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FILTER\_INTERFACE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FILTER\_INTERFACE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ OpenCV\ -\/\ cpu}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <opencv2/core.hpp>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <opencv2/opencv.hpp>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <opencv2/imgproc.hpp>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <opencv2/highgui.hpp>}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ OpenCV\ -\/\ gpu}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <opencv2/core/cuda.hpp>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <opencv2/cudaimgproc.hpp>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <opencv2/cudafilters.hpp>}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{filter__types_8h}{filter\_types.h}}"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{kernel__launcher_8h}{kernel\_launcher.h}}"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{kernel__launcher__utils_8h}{kernel\_launcher\_utils.h}}"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cpu__timer_8h}{cpu\_timer.h}}"{}}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{cuda__timer_8h}{cuda\_timer.h}}"{}}}
+\DoxyCodeLine{00032\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_a0acc405c67e1fae07908d7cacdd426c8}{applyFilterGpu}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00044\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_a5c63151095ccc951a14957068146d56a}{applyFilterOpenCvCpu}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00056\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_a2884f653a2b4f0d6f88e29dc009c0a1b}{applyFilterOpenCvGpu}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00071\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_a26535b9f56fb00e075c2e01b929ed9c2}{applyFilterOpenCvCpuIterations}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{int}\ iterations,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{float}*\ avgMs\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00085\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_ab93ddf0c539bd0752cbc0d292d9928c9}{applyFilterGpuIterations}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{int}\ iterations,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{float}*\ avgMs\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00099\ cv::Mat\ \mbox{\hyperlink{filter__interface_8h_a17bfc25d6aef739b1fdd525fad5ab863}{applyFilterOpenCvGpuIterations}}(\textcolor{keyword}{const}\ cv::Mat\&\ input,\ \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{FilterType}}\ type,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{struct_filter_params}{FilterParams}}\&\ params,\ \textcolor{keywordtype}{int}\ iterations,\ \textcolor{keywordtype}{bool}\ verbose\ =\ \textcolor{keyword}{true},\ \textcolor{keywordtype}{float}*\ avgMs\ =\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

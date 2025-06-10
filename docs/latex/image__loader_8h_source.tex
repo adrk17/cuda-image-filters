@@ -1,0 +1,35 @@
+\doxysection{image\+\_\+loader.\+h}
+\hypertarget{image__loader_8h_source}{}\label{image__loader_8h_source}\mbox{\hyperlink{image__loader_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ IMAGE\_LOADER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ IMAGE\_LOADER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <opencv2/opencv.hpp>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_image_loader}{ImageLoader}}}
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ cv::Mat\ \mbox{\hyperlink{class_image_loader_ab4dbb1ebadf26a6a5dd284d590349ded}{loadImage}}(\textcolor{keyword}{const}\ std::string\&\ filename,\ \textcolor{keywordtype}{bool}\ grayscale\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00020\ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ cv::Mat\ image\ =\ cv::imread(filename,\ grayscale\ ?\ cv::IMREAD\_GRAYSCALE\ :\ cv::IMREAD\_COLOR);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (image.empty())}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}Empty\ image!\ "{}}\ +\ filename);}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ image;}
+\DoxyCodeLine{00027\ \ \ \ \ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{static}\ cv::Mat\ \mbox{\hyperlink{class_image_loader_aadb3a97375193245aeacf3b443a65be0}{loadImage}}(\textcolor{keyword}{const}\ std::string\&\ filename,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{bool}\ grayscale\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ cv::Mat\ image\ =\ \mbox{\hyperlink{class_image_loader_ab4dbb1ebadf26a6a5dd284d590349ded}{loadImage}}(filename,\ grayscale);}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (image.cols\ !=\ width\ ||\ image.rows\ !=\ height)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ cv::resize(image,\ image,\ cv::Size(width,\ height));}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ image;}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

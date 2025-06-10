@@ -1,0 +1,72 @@
+\doxysection{Image\+Loader Class Reference}
+\hypertarget{class_image_loader}{}\label{class_image_loader}\index{ImageLoader@{ImageLoader}}
+
+
+{\ttfamily \#include $<$image\+\_\+loader.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static cv\+::\+Mat \mbox{\hyperlink{class_image_loader_ab4dbb1ebadf26a6a5dd284d590349ded}{load\+Image}} (const std\+::string \&filename, bool grayscale=true)
+\item 
+static cv\+::\+Mat \mbox{\hyperlink{class_image_loader_aadb3a97375193245aeacf3b443a65be0}{load\+Image}} (const std\+::string \&filename, int width, int height, bool grayscale=true)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class for loading images using Open\+CV. Works with both grayscale and color images. 
+
+\label{doc-func-members}
+\Hypertarget{class_image_loader_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_image_loader_ab4dbb1ebadf26a6a5dd284d590349ded}\index{ImageLoader@{ImageLoader}!loadImage@{loadImage}}
+\index{loadImage@{loadImage}!ImageLoader@{ImageLoader}}
+\doxysubsubsection{\texorpdfstring{loadImage()}{loadImage()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_image_loader_ab4dbb1ebadf26a6a5dd284d590349ded} 
+cv\+::\+Mat Image\+Loader\+::load\+Image (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename}{, }\item[{bool}]{grayscale}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Loads an image from the specified file. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & Path to the image file. \\
+\hline
+{\em grayscale} & If true, loads the image in grayscale; otherwise, loads in color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Loaded image as cv\+::\+Mat. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the image cannot be loaded. \\
+\hline
+\end{DoxyExceptions}
+\Hypertarget{class_image_loader_aadb3a97375193245aeacf3b443a65be0}\index{ImageLoader@{ImageLoader}!loadImage@{loadImage}}
+\index{loadImage@{loadImage}!ImageLoader@{ImageLoader}}
+\doxysubsubsection{\texorpdfstring{loadImage()}{loadImage()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_image_loader_aadb3a97375193245aeacf3b443a65be0} 
+cv\+::\+Mat Image\+Loader\+::load\+Image (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{filename}{, }\item[{int}]{width}{, }\item[{int}]{height}{, }\item[{bool}]{grayscale}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Loads an image from the specified file and resizes it to the given dimensions. 
+\begin{DoxyParams}{Parameters}
+{\em filename} & Path to the image file. \\
+\hline
+{\em width} & Desired width of the image. \\
+\hline
+{\em height} & Desired height of the image. \\
+\hline
+{\em grayscale} & If true, loads the image in grayscale; otherwise, loads in color. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Loaded and resized image as cv\+::\+Mat. 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em std\+::runtime\+\_\+error} & if the image cannot be loaded. \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{image__loader_8h}{image\+\_\+loader.\+h}}\end{DoxyCompactItemize}

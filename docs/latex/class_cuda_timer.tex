@@ -1,0 +1,70 @@
+\doxysection{Cuda\+Timer Class Reference}
+\hypertarget{class_cuda_timer}{}\label{class_cuda_timer}\index{CudaTimer@{CudaTimer}}
+
+
+{\ttfamily \#include $<$cuda\+\_\+timer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_cuda_timer_add52b7f92343ff892346eb3f9d6f9173}{Cuda\+Timer}} ()
+\item 
+\mbox{\hyperlink{class_cuda_timer_a1399cfa1437978db51c918ef5b9eeb70}{\texorpdfstring{$\sim$}{\string~}\+Cuda\+Timer}} ()
+\item 
+void \mbox{\hyperlink{class_cuda_timer_ac1e10fc8187e2c4eb6ddac3ad4bec73c}{begin}} ()
+\item 
+void \mbox{\hyperlink{class_cuda_timer_a3fc652b47cbdd7563b43d450ec24e393}{end}} ()
+\item 
+float \mbox{\hyperlink{class_cuda_timer_a0d444ccd74657d83208b6f7281a3bdd8}{elapsed\+Ms}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class for measuring GPU execution time using CUDA events. 
+
+\label{doc-constructors}
+\Hypertarget{class_cuda_timer_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_cuda_timer_add52b7f92343ff892346eb3f9d6f9173}\index{CudaTimer@{CudaTimer}!CudaTimer@{CudaTimer}}
+\index{CudaTimer@{CudaTimer}!CudaTimer@{CudaTimer}}
+\doxysubsubsection{\texorpdfstring{CudaTimer()}{CudaTimer()}}
+{\footnotesize\ttfamily \label{class_cuda_timer_add52b7f92343ff892346eb3f9d6f9173} 
+Cuda\+Timer\+::\+Cuda\+Timer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initializes CUDA events. \Hypertarget{class_cuda_timer_a1399cfa1437978db51c918ef5b9eeb70}\index{CudaTimer@{CudaTimer}!````~CudaTimer@{\texorpdfstring{$\sim$}{\string~}CudaTimer}}
+\index{````~CudaTimer@{\texorpdfstring{$\sim$}{\string~}CudaTimer}!CudaTimer@{CudaTimer}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}CudaTimer()}{\string~CudaTimer()}}
+{\footnotesize\ttfamily \label{class_cuda_timer_a1399cfa1437978db51c918ef5b9eeb70} 
+Cuda\+Timer\+::\texorpdfstring{$\sim$}{\string~}\+Cuda\+Timer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Destroys CUDA events. 
+
+\label{doc-func-members}
+\Hypertarget{class_cuda_timer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cuda_timer_ac1e10fc8187e2c4eb6ddac3ad4bec73c}\index{CudaTimer@{CudaTimer}!begin@{begin}}
+\index{begin@{begin}!CudaTimer@{CudaTimer}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily \label{class_cuda_timer_ac1e10fc8187e2c4eb6ddac3ad4bec73c} 
+void Cuda\+Timer\+::begin (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Starts timing. \Hypertarget{class_cuda_timer_a0d444ccd74657d83208b6f7281a3bdd8}\index{CudaTimer@{CudaTimer}!elapsedMs@{elapsedMs}}
+\index{elapsedMs@{elapsedMs}!CudaTimer@{CudaTimer}}
+\doxysubsubsection{\texorpdfstring{elapsedMs()}{elapsedMs()}}
+{\footnotesize\ttfamily \label{class_cuda_timer_a0d444ccd74657d83208b6f7281a3bdd8} 
+float Cuda\+Timer\+::elapsed\+Ms (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns elapsed time in milliseconds. \begin{DoxyReturn}{Returns}
+Time in ms between \doxylink{class_cuda_timer_ac1e10fc8187e2c4eb6ddac3ad4bec73c}{begin()} and \doxylink{class_cuda_timer_a3fc652b47cbdd7563b43d450ec24e393}{end()}. 
+\end{DoxyReturn}
+\Hypertarget{class_cuda_timer_a3fc652b47cbdd7563b43d450ec24e393}\index{CudaTimer@{CudaTimer}!end@{end}}
+\index{end@{end}!CudaTimer@{CudaTimer}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily \label{class_cuda_timer_a3fc652b47cbdd7563b43d450ec24e393} 
+void Cuda\+Timer\+::end (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Stops timing and synchronizes the event. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{cuda__timer_8h}{cuda\+\_\+timer.\+h}}\end{DoxyCompactItemize}

@@ -1,0 +1,178 @@
+\doxysection{filter\+\_\+interface.\+h File Reference}
+\hypertarget{filter__interface_8h}{}\label{filter__interface_8h}\index{filter\_interface.h@{filter\_interface.h}}
+{\ttfamily \#include $<$opencv2/core.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/opencv.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/imgproc.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/highgui.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/core/cuda.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/cudaimgproc.\+hpp$>$}\newline
+{\ttfamily \#include $<$opencv2/cudafilters.\+hpp$>$}\newline
+{\ttfamily \#include "{}filter\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}kernel\+\_\+launcher.\+h"{}}\newline
+{\ttfamily \#include "{}kernel\+\_\+launcher\+\_\+utils.\+h"{}}\newline
+{\ttfamily \#include "{}cpu\+\_\+timer.\+h"{}}\newline
+{\ttfamily \#include "{}cuda\+\_\+timer.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_a0acc405c67e1fae07908d7cacdd426c8}{apply\+Filter\+Gpu}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, bool verbose=true)
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_a5c63151095ccc951a14957068146d56a}{apply\+Filter\+Open\+Cv\+Cpu}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, bool verbose=true)
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_a2884f653a2b4f0d6f88e29dc009c0a1b}{apply\+Filter\+Open\+Cv\+Gpu}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, bool verbose=true)
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_a26535b9f56fb00e075c2e01b929ed9c2}{apply\+Filter\+Open\+Cv\+Cpu\+Iterations}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, int iterations, bool verbose=true, float \texorpdfstring{$\ast$}{*}avg\+Ms=nullptr)
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_ab93ddf0c539bd0752cbc0d292d9928c9}{apply\+Filter\+Gpu\+Iterations}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, int iterations, bool verbose=true, float \texorpdfstring{$\ast$}{*}avg\+Ms=nullptr)
+\item 
+cv\+::\+Mat \mbox{\hyperlink{filter__interface_8h_a17bfc25d6aef739b1fdd525fad5ab863}{apply\+Filter\+Open\+Cv\+Gpu\+Iterations}} (const cv\+::\+Mat \&input, \mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type, const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, int iterations, bool verbose=true, float \texorpdfstring{$\ast$}{*}avg\+Ms=nullptr)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{filter__interface_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{filter__interface_8h_a0acc405c67e1fae07908d7cacdd426c8}\index{filter\_interface.h@{filter\_interface.h}!applyFilterGpu@{applyFilterGpu}}
+\index{applyFilterGpu@{applyFilterGpu}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterGpu()}{applyFilterGpu()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_a0acc405c67e1fae07908d7cacdd426c8} 
+cv\+::\+Mat apply\+Filter\+Gpu (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{bool}]{verbose}{ = {\ttfamily true}}\end{DoxyParamCaption})}
+
+Applies the selected filter to a grayscale image using custom CUDA kernels on the GPU. This function allocates device memory, copies the input image to the GPU, launches the appropriate CUDA kernel (such as Gaussian blur, erosion, dilation, opening, or closing), and copies the result back to the host. It can print kernel execution time if verbose is enabled.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em verbose} & If true, prints kernel execution time and error messages. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after filtering, or a clone of the input on error. 
+\end{DoxyReturn}
+\Hypertarget{filter__interface_8h_ab93ddf0c539bd0752cbc0d292d9928c9}\index{filter\_interface.h@{filter\_interface.h}!applyFilterGpuIterations@{applyFilterGpuIterations}}
+\index{applyFilterGpuIterations@{applyFilterGpuIterations}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterGpuIterations()}{applyFilterGpuIterations()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_ab93ddf0c539bd0752cbc0d292d9928c9} 
+cv\+::\+Mat apply\+Filter\+Gpu\+Iterations (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{int}]{iterations}{, }\item[{bool}]{verbose}{ = {\ttfamily true}, }\item[{float \texorpdfstring{$\ast$}{*}}]{avg\+Ms}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})}
+
+Applies the selected filter using custom CUDA kernels for a specified number of iterations. The filter is applied repeatedly on the GPU, and the average execution time can be measured and returned. Useful for benchmarking or repeated processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em iterations} & Number of times to apply the filter. \\
+\hline
+{\em verbose} & If true, prints timing information for each iteration and the average. \\
+\hline
+{\em avg\+Ms} & Pointer to store average execution time in milliseconds (can be nullptr). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after the last iteration. 
+\end{DoxyReturn}
+\Hypertarget{filter__interface_8h_a5c63151095ccc951a14957068146d56a}\index{filter\_interface.h@{filter\_interface.h}!applyFilterOpenCvCpu@{applyFilterOpenCvCpu}}
+\index{applyFilterOpenCvCpu@{applyFilterOpenCvCpu}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterOpenCvCpu()}{applyFilterOpenCvCpu()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_a5c63151095ccc951a14957068146d56a} 
+cv\+::\+Mat apply\+Filter\+Open\+Cv\+Cpu (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{bool}]{verbose}{ = {\ttfamily true}}\end{DoxyParamCaption})}
+
+Applies the selected filter to a grayscale image using Open\+CV\textquotesingle{}s CPU functions. The function selects and applies the appropriate Open\+CV filter (e.\+g., Gaussian\+Blur, erode, dilate, morphology\+Ex) based on the filter type and parameters. Prints timing information if verbose is enabled.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em verbose} & If true, prints filter execution time and error messages. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after filtering, or a clone of the input on error. 
+\end{DoxyReturn}
+\Hypertarget{filter__interface_8h_a26535b9f56fb00e075c2e01b929ed9c2}\index{filter\_interface.h@{filter\_interface.h}!applyFilterOpenCvCpuIterations@{applyFilterOpenCvCpuIterations}}
+\index{applyFilterOpenCvCpuIterations@{applyFilterOpenCvCpuIterations}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterOpenCvCpuIterations()}{applyFilterOpenCvCpuIterations()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_a26535b9f56fb00e075c2e01b929ed9c2} 
+cv\+::\+Mat apply\+Filter\+Open\+Cv\+Cpu\+Iterations (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{int}]{iterations}{, }\item[{bool}]{verbose}{ = {\ttfamily true}, }\item[{float \texorpdfstring{$\ast$}{*}}]{avg\+Ms}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})}
+
+Applies the selected filter using Open\+CV\textquotesingle{}s CPU functions for a specified number of iterations. The filter is applied repeatedly, and the average execution time can be measured and returned. Useful for benchmarking or repeated processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em iterations} & Number of times to apply the filter. \\
+\hline
+{\em verbose} & If true, prints timing information for each iteration and the average. \\
+\hline
+{\em avg\+Ms} & Pointer to store average execution time in milliseconds (can be nullptr). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after the last iteration. 
+\end{DoxyReturn}
+\Hypertarget{filter__interface_8h_a2884f653a2b4f0d6f88e29dc009c0a1b}\index{filter\_interface.h@{filter\_interface.h}!applyFilterOpenCvGpu@{applyFilterOpenCvGpu}}
+\index{applyFilterOpenCvGpu@{applyFilterOpenCvGpu}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterOpenCvGpu()}{applyFilterOpenCvGpu()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_a2884f653a2b4f0d6f88e29dc009c0a1b} 
+cv\+::\+Mat apply\+Filter\+Open\+Cv\+Gpu (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{bool}]{verbose}{ = {\ttfamily true}}\end{DoxyParamCaption})}
+
+Applies the selected filter to a grayscale image using Open\+CV\textquotesingle{}s CUDA-\/accelerated functions. The image is uploaded to GPU memory, the appropriate Open\+CV CUDA filter is created and applied, and the result is downloaded back to the host. Prints timing information if verbose is enabled.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em verbose} & If true, prints filter execution time and error messages. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after filtering, or the input image if the filter type is unsupported. 
+\end{DoxyReturn}
+\Hypertarget{filter__interface_8h_a17bfc25d6aef739b1fdd525fad5ab863}\index{filter\_interface.h@{filter\_interface.h}!applyFilterOpenCvGpuIterations@{applyFilterOpenCvGpuIterations}}
+\index{applyFilterOpenCvGpuIterations@{applyFilterOpenCvGpuIterations}!filter\_interface.h@{filter\_interface.h}}
+\doxysubsubsection{\texorpdfstring{applyFilterOpenCvGpuIterations()}{applyFilterOpenCvGpuIterations()}}
+{\footnotesize\ttfamily \label{filter__interface_8h_a17bfc25d6aef739b1fdd525fad5ab863} 
+cv\+::\+Mat apply\+Filter\+Open\+Cv\+Gpu\+Iterations (\begin{DoxyParamCaption}\item[{const cv\+::\+Mat \&}]{input}{, }\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{, }\item[{const \mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&}]{params}{, }\item[{int}]{iterations}{, }\item[{bool}]{verbose}{ = {\ttfamily true}, }\item[{float \texorpdfstring{$\ast$}{*}}]{avg\+Ms}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})}
+
+Applies the selected filter using Open\+CV\textquotesingle{}s CUDA-\/accelerated functions for a specified number of iterations. The filter is applied repeatedly on the GPU, and the average execution time can be measured and returned. Useful for benchmarking or repeated processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Grayscale input image (CV\+\_\+8\+UC1). \\
+\hline
+{\em type} & \doxylink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type} enum specifying which filter to apply. \\
+\hline
+{\em params} & \doxylink{struct_filter_params}{Filter\+Params} struct containing filter-\/specific parameters. \\
+\hline
+{\em iterations} & Number of times to apply the filter. \\
+\hline
+{\em verbose} & If true, prints timing information for each iteration and the average. \\
+\hline
+{\em avg\+Ms} & Pointer to store average execution time in milliseconds (can be nullptr). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Output image after the last iteration. 
+\end{DoxyReturn}

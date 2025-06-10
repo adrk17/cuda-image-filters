@@ -1,0 +1,42 @@
+\doxysection{kernel\+\_\+launcher\+\_\+utils.\+cu File Reference}
+\hypertarget{kernel__launcher__utils_8cu}{}\label{kernel__launcher__utils_8cu}\index{kernel\_launcher\_utils.cu@{kernel\_launcher\_utils.cu}}
+{\ttfamily \#include "{}kernel\+\_\+launcher\+\_\+utils.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{kernel__launcher__utils_8cu_a370ec25d3d9e59c3c595e8462c78a052}{is\+Morphological\+Filter}} (\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}} type)
+\item 
+float \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{kernel__launcher__utils_8cu_a1e7ac3275929e970f0cf109ba3259648}{generate\+Gaussian\+Kernel1D}} (int size, float sigma)
+\begin{DoxyCompactList}\small\item\em Generates a 1D Gaussian kernel. This function creates a 1D Gaussian kernel of the specified size and standard deviation. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{kernel__launcher__utils_8cu_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel__launcher__utils_8cu_a1e7ac3275929e970f0cf109ba3259648}\index{kernel\_launcher\_utils.cu@{kernel\_launcher\_utils.cu}!generateGaussianKernel1D@{generateGaussianKernel1D}}
+\index{generateGaussianKernel1D@{generateGaussianKernel1D}!kernel\_launcher\_utils.cu@{kernel\_launcher\_utils.cu}}
+\doxysubsubsection{\texorpdfstring{generateGaussianKernel1D()}{generateGaussianKernel1D()}}
+{\footnotesize\ttfamily \label{kernel__launcher__utils_8cu_a1e7ac3275929e970f0cf109ba3259648} 
+float \texorpdfstring{$\ast$}{*} generate\+Gaussian\+Kernel1D (\begin{DoxyParamCaption}\item[{int}]{size}{, }\item[{float}]{sigma}{}\end{DoxyParamCaption})}
+
+
+
+Generates a 1D Gaussian kernel. This function creates a 1D Gaussian kernel of the specified size and standard deviation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em size} & Size of the kernel (must be odd). \\
+\hline
+{\em sigma} & Standard deviation of the Gaussian distribution. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the generated Gaussian kernel. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher__utils_8cu_a370ec25d3d9e59c3c595e8462c78a052}\index{kernel\_launcher\_utils.cu@{kernel\_launcher\_utils.cu}!isMorphologicalFilter@{isMorphologicalFilter}}
+\index{isMorphologicalFilter@{isMorphologicalFilter}!kernel\_launcher\_utils.cu@{kernel\_launcher\_utils.cu}}
+\doxysubsubsection{\texorpdfstring{isMorphologicalFilter()}{isMorphologicalFilter()}}
+{\footnotesize\ttfamily \label{kernel__launcher__utils_8cu_a370ec25d3d9e59c3c595e8462c78a052} 
+bool is\+Morphological\+Filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{filter__types_8h_a7ef0ab496f57e183b484e62e2053c94f}{Filter\+Type}}}]{type}{}\end{DoxyParamCaption})}
+
+Checks if the filter type is a morphological filter. 

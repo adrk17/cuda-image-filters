@@ -1,0 +1,352 @@
+\doxysection{kernel\+\_\+launcher.\+cu File Reference}
+\hypertarget{kernel__launcher_8cu}{}\label{kernel__launcher_8cu}\index{kernel\_launcher.cu@{kernel\_launcher.cu}}
+{\ttfamily \#include "{}kernel\+\_\+launcher.\+h"{}}\newline
+{\ttfamily \#include "{}cuda\+\_\+timer.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{kernel__launcher_8cu_ad15fd16739aed9c0a4cdc7dd5b866855}{upload\+Constant\+Kernel}} (const float \texorpdfstring{$\ast$}{*}h\+\_\+kernel, int k\+Width)
+\item 
+void \mbox{\hyperlink{kernel__launcher_8cu_a5d3b73c8e233c372f477b95ed779bafb}{upload\+Morph\+Mask\+To\+Constant}} (const cv\+::\+Size kernel\+Size, const int morph\+Shape)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \mbox{\hyperlink{kernel__launcher_8cu_a0d8cb0a318196779814eb4dad9435d4c}{gaussian\+Blur\+XKernel}} (const uchar \texorpdfstring{$\ast$}{*}input, float \texorpdfstring{$\ast$}{*}temp, int rows, int cols, int k\+Width)
+\begin{DoxyCompactList}\small\item\em Performs horizontal (X-\/direction) 1D Gaussian blur on the input image. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \mbox{\hyperlink{kernel__launcher_8cu_a86be7d4bdd8250a3ccb00929b89a94eb}{gaussian\+Blur\+YKernel}} (const float \texorpdfstring{$\ast$}{*}temp, uchar \texorpdfstring{$\ast$}{*}output, int rows, int cols, int k\+Width)
+\begin{DoxyCompactList}\small\item\em Performs vertical (Y-\/direction) 1D Gaussian blur on the intermediate buffer. \end{DoxyCompactList}\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8cu_a150410434fc1162c8a3220a85369314e}{launch\+Gaussian\+Blur}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, int kernel\+Width, float sigma, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \mbox{\hyperlink{kernel__launcher_8cu_ad333337dc0a71ebbe9d08211953bfaf6}{erosion\+Kernel}} (const uchar \texorpdfstring{$\ast$}{*}input, uchar \texorpdfstring{$\ast$}{*}output, int rows, int cols, int k\+Width, int k\+Height)
+\begin{DoxyCompactList}\small\item\em Performs morphological erosion on the input image using a structuring element. \end{DoxyCompactList}\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8cu_a2320f6fdfcedcf13922154ca6d28a879}{launch\+Erosion}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void \mbox{\hyperlink{kernel__launcher_8cu_a4266ecf11da25601183a96a06318e606}{dilation\+Kernel}} (const uchar \texorpdfstring{$\ast$}{*}input, uchar \texorpdfstring{$\ast$}{*}output, int rows, int cols, int k\+Width, int k\+Height)
+\begin{DoxyCompactList}\small\item\em Performs morphological dilation on the input image using a structuring element. \end{DoxyCompactList}\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8cu_ac0a61c27d48fb7025ef873d422d844bd}{launch\+Dilation}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8cu_a83be2bbba0b70b1ba71500a46ae15597}{launch\+Opening}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8cu_a3a9d6de90e2ba2e1c10ba1a8b1f09d75}{launch\+Closing}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+constant\+\_\+\+\_\+ float \mbox{\hyperlink{kernel__launcher_8cu_ac176dff13a77f32eff64488642b20b0b}{d\+\_\+constant\+Kernel1D}} \mbox{[}\mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em CONSTANT MEMORY MANAGEMENT /// -- Constant memory has to be used and declared in the same .cu file as the kernel that uses it. CUDA does not have a linker for constant memory, so it cannot be declared in a header file and used in multiple .cu files. \end{DoxyCompactList}\item 
+\+\_\+\+\_\+constant\+\_\+\+\_\+ uchar \mbox{\hyperlink{kernel__launcher_8cu_a48a111b771ad234679fde8c560adf590}{d\+\_\+morph\+Mask}} \mbox{[}\mbox{\hyperlink{cuda__utils_8cuh_a5dc7466758969a867f7d8d92f0099d97}{MAX\+\_\+\+KERNEL\+\_\+\+AREA}}\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{kernel__launcher_8cu_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel__launcher_8cu_a4266ecf11da25601183a96a06318e606}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!dilationKernel@{dilationKernel}}
+\index{dilationKernel@{dilationKernel}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{dilationKernel()}{dilationKernel()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a4266ecf11da25601183a96a06318e606} 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void dilation\+Kernel (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{k\+Width}{, }\item[{int}]{k\+Height}{}\end{DoxyParamCaption})}
+
+
+
+Performs morphological dilation on the input image using a structuring element. 
+
+Each thread block loads a tile of the image into shared memory, including a border for the structuring element radius. For each pixel, the maximum value under the structuring element (mask) is computed and written to the output. The structuring element is loaded from constant memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Pointer to input image data (uchar, device memory). \\
+\hline
+{\em output} & Pointer to output image data (uchar, device memory). \\
+\hline
+{\em rows} & Number of image rows. \\
+\hline
+{\em cols} & Number of image columns. \\
+\hline
+{\em k\+Width} & Width of the structuring element. \\
+\hline
+{\em k\+Height} & Height of the structuring element. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel__launcher_8cu_ad333337dc0a71ebbe9d08211953bfaf6}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!erosionKernel@{erosionKernel}}
+\index{erosionKernel@{erosionKernel}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{erosionKernel()}{erosionKernel()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_ad333337dc0a71ebbe9d08211953bfaf6} 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void erosion\+Kernel (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{k\+Width}{, }\item[{int}]{k\+Height}{}\end{DoxyParamCaption})}
+
+
+
+Performs morphological erosion on the input image using a structuring element. 
+
+Each thread block loads a tile of the image into shared memory, including a border for the structuring element radius. For each pixel, the minimum value under the structuring element (mask) is computed and written to the output. The structuring element is loaded from constant memory.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Pointer to input image data (uchar, device memory). \\
+\hline
+{\em output} & Pointer to output image data (uchar, device memory). \\
+\hline
+{\em rows} & Number of image rows. \\
+\hline
+{\em cols} & Number of image columns. \\
+\hline
+{\em k\+Width} & Width of the structuring element. \\
+\hline
+{\em k\+Height} & Height of the structuring element. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel__launcher_8cu_a0d8cb0a318196779814eb4dad9435d4c}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!gaussianBlurXKernel@{gaussianBlurXKernel}}
+\index{gaussianBlurXKernel@{gaussianBlurXKernel}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{gaussianBlurXKernel()}{gaussianBlurXKernel()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a0d8cb0a318196779814eb4dad9435d4c} 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void gaussian\+Blur\+XKernel (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{input}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{temp}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{k\+Width}{}\end{DoxyParamCaption})}
+
+
+
+Performs horizontal (X-\/direction) 1D Gaussian blur on the input image. 
+
+Each thread block loads a tile of the image into shared memory, including a border for the kernel radius. For each pixel, the kernel is applied in the X direction using the preloaded 1D Gaussian kernel from constant memory. The result is written as a float to a temporary buffer for further processing.
+
+
+\begin{DoxyParams}{Parameters}
+{\em input} & Pointer to input image data (uchar, device memory). \\
+\hline
+{\em temp} & Pointer to temporary output buffer (float, device memory). \\
+\hline
+{\em rows} & Number of image rows. \\
+\hline
+{\em cols} & Number of image columns. \\
+\hline
+{\em k\+Width} & Width of the Gaussian kernel (must be odd). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel__launcher_8cu_a86be7d4bdd8250a3ccb00929b89a94eb}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!gaussianBlurYKernel@{gaussianBlurYKernel}}
+\index{gaussianBlurYKernel@{gaussianBlurYKernel}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{gaussianBlurYKernel()}{gaussianBlurYKernel()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a86be7d4bdd8250a3ccb00929b89a94eb} 
+\+\_\+\+\_\+global\+\_\+\+\_\+ void gaussian\+Blur\+YKernel (\begin{DoxyParamCaption}\item[{const float \texorpdfstring{$\ast$}{*}}]{temp}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{k\+Width}{}\end{DoxyParamCaption})}
+
+
+
+Performs vertical (Y-\/direction) 1D Gaussian blur on the intermediate buffer. 
+
+Each thread block loads a tile of the intermediate buffer into shared memory, including a border for the kernel radius. For each pixel, the kernel is applied in the Y direction using the preloaded 1D Gaussian kernel from constant memory. The result is written as uchar to the output image, completing the separable 2D Gaussian blur.
+
+
+\begin{DoxyParams}{Parameters}
+{\em temp} & Pointer to intermediate buffer (float, device memory). \\
+\hline
+{\em output} & Pointer to output image data (uchar, device memory). \\
+\hline
+{\em rows} & Number of image rows. \\
+\hline
+{\em cols} & Number of image columns. \\
+\hline
+{\em k\+Width} & Width of the Gaussian kernel (must be odd). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel__launcher_8cu_a3a9d6de90e2ba2e1c10ba1a8b1f09d75}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!launchClosing@{launchClosing}}
+\index{launchClosing@{launchClosing}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{launchClosing()}{launchClosing()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a3a9d6de90e2ba2e1c10ba1a8b1f09d75} 
+cuda\+Error\+\_\+t launch\+Closing (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA closing operation (dilation followed by erosion) on a grayscale image. This function uploads the structuring element to constant memory, allocates temporary device memory, and sequentially runs the dilation and erosion CUDA kernels. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8cu_ac0a61c27d48fb7025ef873d422d844bd}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!launchDilation@{launchDilation}}
+\index{launchDilation@{launchDilation}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{launchDilation()}{launchDilation()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_ac0a61c27d48fb7025ef873d422d844bd} 
+cuda\+Error\+\_\+t launch\+Dilation (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA dilation operation on a grayscale image. This function uploads the morphological structuring element to constant memory, allocates shared memory for each block, and runs a CUDA kernel that computes the maximum value under the structuring element for each pixel. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8cu_a2320f6fdfcedcf13922154ca6d28a879}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!launchErosion@{launchErosion}}
+\index{launchErosion@{launchErosion}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{launchErosion()}{launchErosion()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a2320f6fdfcedcf13922154ca6d28a879} 
+cuda\+Error\+\_\+t launch\+Erosion (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA erosion operation on a grayscale image. This function uploads the morphological structuring element to constant memory, allocates shared memory for each block, and runs a CUDA kernel that computes the minimum value under the structuring element for each pixel. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8cu_a150410434fc1162c8a3220a85369314e}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!launchGaussianBlur@{launchGaussianBlur}}
+\index{launchGaussianBlur@{launchGaussianBlur}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{launchGaussianBlur()}{launchGaussianBlur()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a150410434fc1162c8a3220a85369314e} 
+cuda\+Error\+\_\+t launch\+Gaussian\+Blur (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{kernel\+Width}{, }\item[{float}]{sigma}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA Gaussian blur operation on a grayscale image. This function uploads a 1D Gaussian kernel to constant memory, allocates temporary device memory, and runs two CUDA kernels to perform separable convolution in the X and Y directions. The result is written to the output device buffer. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Width} & Width of the Gaussian kernel (must be odd). \\
+\hline
+{\em sigma} & Standard deviation of the Gaussian. \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8cu_a83be2bbba0b70b1ba71500a46ae15597}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!launchOpening@{launchOpening}}
+\index{launchOpening@{launchOpening}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{launchOpening()}{launchOpening()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a83be2bbba0b70b1ba71500a46ae15597} 
+cuda\+Error\+\_\+t launch\+Opening (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA opening operation (erosion followed by dilation) on a grayscale image. This function uploads the structuring element to constant memory, allocates temporary device memory, and sequentially runs the erosion and dilation CUDA kernels. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8cu_ad15fd16739aed9c0a4cdc7dd5b866855}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!uploadConstantKernel@{uploadConstantKernel}}
+\index{uploadConstantKernel@{uploadConstantKernel}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{uploadConstantKernel()}{uploadConstantKernel()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_ad15fd16739aed9c0a4cdc7dd5b866855} 
+void upload\+Constant\+Kernel (\begin{DoxyParamCaption}\item[{const float \texorpdfstring{$\ast$}{*}}]{h\+\_\+kernel}{, }\item[{int}]{k\+Width}{}\end{DoxyParamCaption})}
+
+Uploads a 1D Gaussian kernel to constant memory. 
+\begin{DoxyParams}{Parameters}
+{\em h\+\_\+kernel} & Host-\/side Gaussian kernel. \\
+\hline
+{\em k\+Width} & Kernel width (must be \texorpdfstring{$<$}{<}= MAX\+\_\+\+KERNEL\+\_\+\+WIDTH). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{kernel__launcher_8cu_a5d3b73c8e233c372f477b95ed779bafb}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!uploadMorphMaskToConstant@{uploadMorphMaskToConstant}}
+\index{uploadMorphMaskToConstant@{uploadMorphMaskToConstant}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{uploadMorphMaskToConstant()}{uploadMorphMaskToConstant()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a5d3b73c8e233c372f477b95ed779bafb} 
+void upload\+Morph\+Mask\+To\+Constant (\begin{DoxyParamCaption}\item[{const cv\+::\+Size}]{kernel\+Size}{, }\item[{const int}]{morph\+Shape}{}\end{DoxyParamCaption})}
+
+Uploads a morphological structuring element to constant memory. 
+\begin{DoxyParams}{Parameters}
+{\em kernel\+Size} & Size of the structuring element. \\
+\hline
+{\em morph\+Shape} & Open\+CV morphology shape (e.\+g., MORPH\+\_\+\+RECT). \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-var-members}
+\Hypertarget{kernel__launcher_8cu_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{kernel__launcher_8cu_ac176dff13a77f32eff64488642b20b0b}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!d\_constantKernel1D@{d\_constantKernel1D}}
+\index{d\_constantKernel1D@{d\_constantKernel1D}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{d\_constantKernel1D}{d\_constantKernel1D}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_ac176dff13a77f32eff64488642b20b0b} 
+\+\_\+\+\_\+constant\+\_\+\+\_\+ float d\+\_\+constant\+Kernel1D\mbox{[}\mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}}\mbox{]}}
+
+
+
+CONSTANT MEMORY MANAGEMENT /// -- Constant memory has to be used and declared in the same .cu file as the kernel that uses it. CUDA does not have a linker for constant memory, so it cannot be declared in a header file and used in multiple .cu files. 
+
+\Hypertarget{kernel__launcher_8cu_a48a111b771ad234679fde8c560adf590}\index{kernel\_launcher.cu@{kernel\_launcher.cu}!d\_morphMask@{d\_morphMask}}
+\index{d\_morphMask@{d\_morphMask}!kernel\_launcher.cu@{kernel\_launcher.cu}}
+\doxysubsubsection{\texorpdfstring{d\_morphMask}{d\_morphMask}}
+{\footnotesize\ttfamily \label{kernel__launcher_8cu_a48a111b771ad234679fde8c560adf590} 
+\+\_\+\+\_\+constant\+\_\+\+\_\+ uchar d\+\_\+morph\+Mask\mbox{[}\mbox{\hyperlink{cuda__utils_8cuh_a5dc7466758969a867f7d8d92f0099d97}{MAX\+\_\+\+KERNEL\+\_\+\+AREA}}\mbox{]}}
+

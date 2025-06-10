@@ -1,0 +1,184 @@
+\doxysection{kernel\+\_\+launcher.\+h File Reference}
+\hypertarget{kernel__launcher_8h}{}\label{kernel__launcher_8h}\index{kernel\_launcher.h@{kernel\_launcher.h}}
+{\ttfamily \#include "{}cuda\+\_\+runtime.\+h"{}}\newline
+{\ttfamily \#include $<$device\+\_\+launch\+\_\+parameters.\+h$>$}\newline
+{\ttfamily \#include "{}filter\+\_\+types.\+h"{}}\newline
+{\ttfamily \#include "{}kernel\+\_\+launcher\+\_\+utils.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8h_a150410434fc1162c8a3220a85369314e}{launch\+Gaussian\+Blur}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, int kernel\+Width, float sigma, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8h_a2320f6fdfcedcf13922154ca6d28a879}{launch\+Erosion}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8h_ac0a61c27d48fb7025ef873d422d844bd}{launch\+Dilation}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8h_a83be2bbba0b70b1ba71500a46ae15597}{launch\+Opening}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\item 
+cuda\+Error\+\_\+t \mbox{\hyperlink{kernel__launcher_8h_a3a9d6de90e2ba2e1c10ba1a8b1f09d75}{launch\+Closing}} (const uchar \texorpdfstring{$\ast$}{*}d\+\_\+input, uchar \texorpdfstring{$\ast$}{*}d\+\_\+output, int rows, int cols, cv\+::\+Size kernel\+Size, int morph\+Shape, dim3 grid, dim3 block, float \texorpdfstring{$\ast$}{*}elapsed\+Ms)
+\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{kernel__launcher_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{kernel__launcher_8h_a3a9d6de90e2ba2e1c10ba1a8b1f09d75}\index{kernel\_launcher.h@{kernel\_launcher.h}!launchClosing@{launchClosing}}
+\index{launchClosing@{launchClosing}!kernel\_launcher.h@{kernel\_launcher.h}}
+\doxysubsubsection{\texorpdfstring{launchClosing()}{launchClosing()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8h_a3a9d6de90e2ba2e1c10ba1a8b1f09d75} 
+cuda\+Error\+\_\+t launch\+Closing (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA closing operation (dilation followed by erosion) on a grayscale image. This function uploads the structuring element to constant memory, allocates temporary device memory, and sequentially runs the dilation and erosion CUDA kernels. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8h_ac0a61c27d48fb7025ef873d422d844bd}\index{kernel\_launcher.h@{kernel\_launcher.h}!launchDilation@{launchDilation}}
+\index{launchDilation@{launchDilation}!kernel\_launcher.h@{kernel\_launcher.h}}
+\doxysubsubsection{\texorpdfstring{launchDilation()}{launchDilation()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8h_ac0a61c27d48fb7025ef873d422d844bd} 
+cuda\+Error\+\_\+t launch\+Dilation (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA dilation operation on a grayscale image. This function uploads the morphological structuring element to constant memory, allocates shared memory for each block, and runs a CUDA kernel that computes the maximum value under the structuring element for each pixel. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8h_a2320f6fdfcedcf13922154ca6d28a879}\index{kernel\_launcher.h@{kernel\_launcher.h}!launchErosion@{launchErosion}}
+\index{launchErosion@{launchErosion}!kernel\_launcher.h@{kernel\_launcher.h}}
+\doxysubsubsection{\texorpdfstring{launchErosion()}{launchErosion()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8h_a2320f6fdfcedcf13922154ca6d28a879} 
+cuda\+Error\+\_\+t launch\+Erosion (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA erosion operation on a grayscale image. This function uploads the morphological structuring element to constant memory, allocates shared memory for each block, and runs a CUDA kernel that computes the minimum value under the structuring element for each pixel. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8h_a150410434fc1162c8a3220a85369314e}\index{kernel\_launcher.h@{kernel\_launcher.h}!launchGaussianBlur@{launchGaussianBlur}}
+\index{launchGaussianBlur@{launchGaussianBlur}!kernel\_launcher.h@{kernel\_launcher.h}}
+\doxysubsubsection{\texorpdfstring{launchGaussianBlur()}{launchGaussianBlur()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8h_a150410434fc1162c8a3220a85369314e} 
+cuda\+Error\+\_\+t launch\+Gaussian\+Blur (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{int}]{kernel\+Width}{, }\item[{float}]{sigma}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA Gaussian blur operation on a grayscale image. This function uploads a 1D Gaussian kernel to constant memory, allocates temporary device memory, and runs two CUDA kernels to perform separable convolution in the X and Y directions. The result is written to the output device buffer. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Width} & Width of the Gaussian kernel (must be odd). \\
+\hline
+{\em sigma} & Standard deviation of the Gaussian. \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}
+\Hypertarget{kernel__launcher_8h_a83be2bbba0b70b1ba71500a46ae15597}\index{kernel\_launcher.h@{kernel\_launcher.h}!launchOpening@{launchOpening}}
+\index{launchOpening@{launchOpening}!kernel\_launcher.h@{kernel\_launcher.h}}
+\doxysubsubsection{\texorpdfstring{launchOpening()}{launchOpening()}}
+{\footnotesize\ttfamily \label{kernel__launcher_8h_a83be2bbba0b70b1ba71500a46ae15597} 
+cuda\+Error\+\_\+t launch\+Opening (\begin{DoxyParamCaption}\item[{const uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+input}{, }\item[{uchar \texorpdfstring{$\ast$}{*}}]{d\+\_\+output}{, }\item[{int}]{rows}{, }\item[{int}]{cols}{, }\item[{cv\+::\+Size}]{kernel\+Size}{, }\item[{int}]{morph\+Shape}{, }\item[{dim3}]{grid}{, }\item[{dim3}]{block}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{elapsed\+Ms}{}\end{DoxyParamCaption})}
+
+Launches a custom CUDA opening operation (erosion followed by dilation) on a grayscale image. This function uploads the structuring element to constant memory, allocates temporary device memory, and sequentially runs the erosion and dilation CUDA kernels. Optionally measures and returns execution time.
+
+
+\begin{DoxyParams}{Parameters}
+{\em d\+\_\+input} & Device input image (grayscale). \\
+\hline
+{\em d\+\_\+output} & Device output image. \\
+\hline
+{\em rows} & Number of rows in the image. \\
+\hline
+{\em cols} & Number of columns in the image. \\
+\hline
+{\em kernel\+Size} & Size of the morphological kernel (e.\+g., cv\+::\+Size(3, 3)). \\
+\hline
+{\em morph\+Shape} & Shape of the morphological operation (e.\+g., cv\+::\+MORPH\+\_\+\+RECT). \\
+\hline
+{\em grid} & CUDA grid dimensions. \\
+\hline
+{\em block} & CUDA block dimensions. \\
+\hline
+{\em elapsed\+Ms} & Optional pointer to store elapsed time in ms. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+CUDA error code. 
+\end{DoxyReturn}

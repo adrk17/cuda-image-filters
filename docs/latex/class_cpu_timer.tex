@@ -1,0 +1,49 @@
+\doxysection{Cpu\+Timer Class Reference}
+\hypertarget{class_cpu_timer}{}\label{class_cpu_timer}\index{CpuTimer@{CpuTimer}}
+
+
+{\ttfamily \#include $<$cpu\+\_\+timer.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_cpu_timer_ad8760c117783871cdd6f44d2269995c2}{start}} ()
+\item 
+void \mbox{\hyperlink{class_cpu_timer_abb3062fe2d0964776ad4306c3627beb0}{stop}} ()
+\item 
+double \mbox{\hyperlink{class_cpu_timer_afe6cd6f66763e99e415705de1dbf53a6}{elapsed\+Ms}} () const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Utility class for measuring CPU execution time using high-\/resolution clock. 
+
+\label{doc-func-members}
+\Hypertarget{class_cpu_timer_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_cpu_timer_afe6cd6f66763e99e415705de1dbf53a6}\index{CpuTimer@{CpuTimer}!elapsedMs@{elapsedMs}}
+\index{elapsedMs@{elapsedMs}!CpuTimer@{CpuTimer}}
+\doxysubsubsection{\texorpdfstring{elapsedMs()}{elapsedMs()}}
+{\footnotesize\ttfamily \label{class_cpu_timer_afe6cd6f66763e99e415705de1dbf53a6} 
+double Cpu\+Timer\+::elapsed\+Ms (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns elapsed time in milliseconds. \begin{DoxyReturn}{Returns}
+Time in ms between \doxylink{class_cpu_timer_ad8760c117783871cdd6f44d2269995c2}{start()} and \doxylink{class_cpu_timer_abb3062fe2d0964776ad4306c3627beb0}{stop()}. 
+\end{DoxyReturn}
+\Hypertarget{class_cpu_timer_ad8760c117783871cdd6f44d2269995c2}\index{CpuTimer@{CpuTimer}!start@{start}}
+\index{start@{start}!CpuTimer@{CpuTimer}}
+\doxysubsubsection{\texorpdfstring{start()}{start()}}
+{\footnotesize\ttfamily \label{class_cpu_timer_ad8760c117783871cdd6f44d2269995c2} 
+void Cpu\+Timer\+::start (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initializes the timer. \Hypertarget{class_cpu_timer_abb3062fe2d0964776ad4306c3627beb0}\index{CpuTimer@{CpuTimer}!stop@{stop}}
+\index{stop@{stop}!CpuTimer@{CpuTimer}}
+\doxysubsubsection{\texorpdfstring{stop()}{stop()}}
+{\footnotesize\ttfamily \label{class_cpu_timer_abb3062fe2d0964776ad4306c3627beb0} 
+void Cpu\+Timer\+::stop (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Stops the timer. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{cpu__timer_8h}{cpu\+\_\+timer.\+h}}\end{DoxyCompactItemize}

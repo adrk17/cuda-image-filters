@@ -1,0 +1,36 @@
+\doxysection{cuda\+\_\+utils.\+cuh}
+\hypertarget{cuda__utils_8cuh_source}{}\label{cuda__utils_8cuh_source}\mbox{\hyperlink{cuda__utils_8cuh}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CUDA\_UTILS\_CUH}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CUDA\_UTILS\_CUH}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cuda\_runtime.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <opencv2/core/hal/interface.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ CUDA\_CHECK(call)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\ \ \ \ do\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ cudaError\_t\ err\ =\ call;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ (err\ !=\ cudaSuccess)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ "{}CUDA\ error\ at\ "{}\ <<\ \_\_FILE\_\_\ <<\ "{}:"{}\ <<\ \_\_LINE\_\_\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ "{}\ -\/\ "{}\ <<\ cudaGetErrorString(err)\ <<\ std::endl;\ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ std::exit(EXIT\_FAILURE);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ (0)}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ BLOCK\_SIZE\ 16}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ MAX\_KERNEL\_WIDTH\ 64\ }\textcolor{comment}{//\ Maximum\ kernel\ width\ for\ \_\_constant\_\_\ memory\ allocation}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ MAX\_KERNEL\_AREA\ (MAX\_KERNEL\_WIDTH\ *\ MAX\_KERNEL\_WIDTH)}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00036\ \_\_device\_\_\ \_\_forceinline\_\_\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{cuda__utils_8cuh_a17163c6daa90a933122e449c8c165be6}{clamp}}(\textcolor{keywordtype}{int}\ value,\ \textcolor{keywordtype}{int}\ minVal,\ \textcolor{keywordtype}{int}\ maxVal)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{return}\ (value\ <\ minVal)\ ?\ minVal\ :\ (value\ >\ maxVal)\ ?\ maxVal\ :\ value;}
+\DoxyCodeLine{00038\ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ }
+
+\end{DoxyCode}

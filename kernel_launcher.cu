@@ -10,7 +10,11 @@ __constant__ float d_constantKernel1D[MAX_KERNEL_WIDTH];
 // For morphological kernels (2D, uchar)
 __constant__ uchar d_morphMask[MAX_KERNEL_AREA];
 
-// 1D kernel upload
+/**
+ * Uploads a 1D Gaussian kernel to constant memory.
+ * @param h_kernel Host-side Gaussian kernel.
+ * @param kWidth Kernel width (must be <= MAX_KERNEL_WIDTH).
+ */
 void uploadConstantKernel(const float* h_kernel, int kWidth) {
 	if (kWidth > MAX_KERNEL_WIDTH) {
 		std::cerr << "ERROR: Too large kernel!\n";
@@ -20,7 +24,11 @@ void uploadConstantKernel(const float* h_kernel, int kWidth) {
 	CUDA_CHECK(cudaMemcpyToSymbol(d_constantKernel1D, h_kernel, kWidth * sizeof(float), 0, cudaMemcpyHostToDevice));
 }
 
-// 2D morphological mask upload
+/**
+ * Uploads a morphological structuring element to constant memory.
+ * @param kernelSize Size of the structuring element.
+ * @param morphShape OpenCV morphology shape (e.g., MORPH_RECT).
+ */
 void uploadMorphMaskToConstant(const cv::Size kernelSize, const int morphShape) {
 	cv::Mat mask = cv::getStructuringElement(morphShape, kernelSize);
 
@@ -37,7 +45,19 @@ void uploadMorphMaskToConstant(const cv::Size kernelSize, const int morphShape) 
 
 
 ////// GAUSSIAN BLUR //////
-
+/**
+ * @brief Performs horizontal (X-direction) 1D Gaussian blur on the input image.
+ *
+ * Each thread block loads a tile of the image into shared memory, including a border for the kernel radius.
+ * For each pixel, the kernel is applied in the X direction using the preloaded 1D Gaussian kernel from constant memory.
+ * The result is written as a float to a temporary buffer for further processing.
+ *
+ * @param input   Pointer to input image data (uchar, device memory).
+ * @param temp    Pointer to temporary output buffer (float, device memory).
+ * @param rows    Number of image rows.
+ * @param cols    Number of image columns.
+ * @param kWidth  Width of the Gaussian kernel (must be odd).
+ */
 __global__ void gaussianBlurXKernel(const uchar* input, float* temp, int rows, int cols, int kWidth) {
 	extern __shared__ float tile[];
 	int radius = kWidth / 2;
@@ -70,7 +90,19 @@ __global__ void gaussianBlurXKernel(const uchar* input, float* temp, int rows, i
 	}
 }
 
-
+/**
+ * @brief Performs vertical (Y-direction) 1D Gaussian blur on the intermediate buffer.
+ *
+ * Each thread block loads a tile of the intermediate buffer into shared memory, including a border for the kernel radius.
+ * For each pixel, the kernel is applied in the Y direction using the preloaded 1D Gaussian kernel from constant memory.
+ * The result is written as uchar to the output image, completing the separable 2D Gaussian blur.
+ *
+ * @param temp    Pointer to intermediate buffer (float, device memory).
+ * @param output  Pointer to output image data (uchar, device memory).
+ * @param rows    Number of image rows.
+ * @param cols    Number of image columns.
+ * @param kWidth  Width of the Gaussian kernel (must be odd).
+ */
 __global__ void gaussianBlurYKernel(const float* temp, uchar* output, int rows, int cols, int kWidth) {
 	extern __shared__ float tile[];
 	int radius = kWidth / 2;
@@ -139,6 +171,20 @@ cudaError_t launchGaussianBlur(const uchar* d_input, uchar* d_output, int rows, 
 
 ////// EROSION //////
 
+/**
+ * @brief Performs morphological erosion on the input image using a structuring element.
+ *
+ * Each thread block loads a tile of the image into shared memory, including a border for the structuring element radius.
+ * For each pixel, the minimum value under the structuring element (mask) is computed and written to the output.
+ * The structuring element is loaded from constant memory.
+ *
+ * @param input   Pointer to input image data (uchar, device memory).
+ * @param output  Pointer to output image data (uchar, device memory).
+ * @param rows    Number of image rows.
+ * @param cols    Number of image columns.
+ * @param kWidth  Width of the structuring element.
+ * @param kHeight Height of the structuring element.
+ */
 __global__ void erosionKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
 	extern __shared__ uchar tileErosion[];
 	int radiusX = kWidth / 2;
@@ -213,6 +259,20 @@ cudaError_t launchErosion(const uchar* d_input, uchar* d_output, int rows, int c
 
 ////// DILATION //////
 
+/**
+ * @brief Performs morphological dilation on the input image using a structuring element.
+ *
+ * Each thread block loads a tile of the image into shared memory, including a border for the structuring element radius.
+ * For each pixel, the maximum value under the structuring element (mask) is computed and written to the output.
+ * The structuring element is loaded from constant memory.
+ *
+ * @param input   Pointer to input image data (uchar, device memory).
+ * @param output  Pointer to output image data (uchar, device memory).
+ * @param rows    Number of image rows.
+ * @param cols    Number of image columns.
+ * @param kWidth  Width of the structuring element.
+ * @param kHeight Height of the structuring element.
+ */
 __global__ void dilationKernel(const uchar* input, uchar* output, int rows, int cols, int kWidth, int kHeight) {
 	extern __shared__ uchar tileDilation[];
 	int radiusX = kWidth / 2;

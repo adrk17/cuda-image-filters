@@ -6,11 +6,65 @@
 #include "filter_types.h"
 #include "filter_interface.h"
 
+/**
+ * @brief Tests all supported filters (Gaussian blur, erosion, dilation, opening, closing) on the provided image.
+ *
+ * For each filter type, applies the filter using OpenCV CPU, custom CUDA, and OpenCV CUDA implementations.
+ * Compares the results and, if verbose is enabled, displays and saves the output images.
+ *
+ * @param params   Filter parameters to use for all filters.
+ * @param image    Input image to filter.
+ * @param verbose  Verbosity level (0 = silent, 1 = log info, 2 = log info and show images).
+ */
 void testEveryKernel(FilterParams& params, cv::Mat image, int verbose = 1);
+/**
+ * @brief Displays an image in a window, resizing it if it exceeds the specified maximum dimensions.
+ *
+ * If the image is larger than maxWidth or maxHeight, it is scaled down to fit within those bounds.
+ * The image is then shown in a window with the given name.
+ *
+ * @param winName   Name of the display window.
+ * @param img       Image to display.
+ * @param maxWidth  Maximum allowed width for display (default 1000).
+ * @param maxHeight Maximum allowed height for display (default 1200).
+ */
 void showResizedIfNeeded(const std::string& winName, const cv::Mat& img, int maxWidth = 1000, int maxHeight = 1200);
+/**
+ * @brief Benchmarks all supported filters by running each for a specified number of iterations.
+ *
+ * For each filter type, applies the filter using OpenCV CPU, custom CUDA, and OpenCV CUDA implementations.
+ * Measures and prints the average execution time for each method. Optionally displays and saves output images.
+ *
+ * @param params     Filter parameters to use for all filters.
+ * @param image      Input image to filter.
+ * @param iterations Number of times to run each filter for timing.
+ * @param verbose    Verbosity level (0 = silent, 1 = log info, 2 = log info and show images).
+ */
 void benchmarkEveryKernel(FilterParams& params, cv::Mat image, int iterations, int verbose = 0);
+/**
+ * @brief Compares two images and reports their differences.
+ *
+ * Computes absolute difference, min/max/mean/median difference, and counts pixels with significant differences.
+ * Separates border and inner differences, and optionally displays the difference image and prints a histogram.
+ *
+ * @param img1         First image to compare.
+ * @param img2         Second image to compare.
+ * @param verbose      Verbosity level (0 = summary, 1 = detailed, 2 = show difference image).
+ * @param borderSize   Size of the border region to consider for border differences.
+ * @param diffThreshold Pixel difference threshold to count as significant.
+ */
 void checkDifferance(const cv::Mat& img1, const cv::Mat& img2, int verbose = 1, int borderSize = 10, int diffThreshold = 0);
 
+
+/**
+ * @brief Main entry point of the program.
+ *
+ * Loads an input image, sets up filter parameters, and benchmarks all supported filters
+ * (Gaussian blur, erosion, dilation, opening, closing) using CPU, custom CUDA, and OpenCV CUDA implementations.
+ * Prints average execution times for each method.
+ *
+ * @return 0 on successful execution.
+ */
 int main() {
 	cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 	//std::cout << "CUDA devices: " << cv::cuda::getCudaEnabledDeviceCount() << std::endl;

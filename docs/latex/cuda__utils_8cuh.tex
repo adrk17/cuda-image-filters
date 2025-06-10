@@ -1,0 +1,107 @@
+\doxysection{cuda\+\_\+utils.\+cuh File Reference}
+\hypertarget{cuda__utils_8cuh}{}\label{cuda__utils_8cuh}\index{cuda\_utils.cuh@{cuda\_utils.cuh}}
+{\ttfamily \#include $<$cuda\+\_\+runtime.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$opencv2/core/hal/interface.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{cuda__utils_8cuh_a352ce6e3575d147f21642beae91d10cf}{CUDA\+\_\+\+UTILS\+\_\+\+CUH}}
+\item 
+\#define \mbox{\hyperlink{cuda__utils_8cuh_aeaf2b8792be9f99ad11147059ef5079d}{CUDA\+\_\+\+CHECK}}(call)
+\begin{DoxyCompactList}\small\item\em Check for CUDA errors and print an error message if one occurs. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{cuda__utils_8cuh_ad51ded0bbd705f02f73fc60c0b721ced}{BLOCK\+\_\+\+SIZE}}~16
+\item 
+\#define \mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}}~64
+\item 
+\#define \mbox{\hyperlink{cuda__utils_8cuh_a5dc7466758969a867f7d8d92f0099d97}{MAX\+\_\+\+KERNEL\+\_\+\+AREA}}~(\mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+forceinline\+\_\+\+\_\+ int \mbox{\hyperlink{cuda__utils_8cuh_a17163c6daa90a933122e449c8c165be6}{clamp}} (int value, int min\+Val, int max\+Val)
+\begin{DoxyCompactList}\small\item\em Clamp a value to a specified range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-define-members}
+\Hypertarget{cuda__utils_8cuh_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{cuda__utils_8cuh_ad51ded0bbd705f02f73fc60c0b721ced}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!BLOCK\_SIZE@{BLOCK\_SIZE}}
+\index{BLOCK\_SIZE@{BLOCK\_SIZE}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{BLOCK\_SIZE}{BLOCK\_SIZE}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_ad51ded0bbd705f02f73fc60c0b721ced} 
+\#define BLOCK\+\_\+\+SIZE~16}
+
+\Hypertarget{cuda__utils_8cuh_aeaf2b8792be9f99ad11147059ef5079d}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!CUDA\_CHECK@{CUDA\_CHECK}}
+\index{CUDA\_CHECK@{CUDA\_CHECK}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{CUDA\_CHECK}{CUDA\_CHECK}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_aeaf2b8792be9f99ad11147059ef5079d} 
+\#define CUDA\+\_\+\+CHECK(\begin{DoxyParamCaption}\item[{}]{call}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{do}\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cudaError\_t\ err\ =\ call;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ if\ (err\ !=\ cudaSuccess)\ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}CUDA\ error\ at\ "{}}\ <<\ \_\_FILE\_\_\ <<\ \textcolor{stringliteral}{"{}:"{}}\ <<\ \_\_LINE\_\_\ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{}\ -\/\ "{}}\ <<\ cudaGetErrorString(err)\ <<\ std::endl;\ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ std::exit(EXIT\_FAILURE);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{while}\ (0)}
+
+\end{DoxyCode}
+
+
+Check for CUDA errors and print an error message if one occurs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em call} & The CUDA function call to check. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{cuda__utils_8cuh_a352ce6e3575d147f21642beae91d10cf}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!CUDA\_UTILS\_CUH@{CUDA\_UTILS\_CUH}}
+\index{CUDA\_UTILS\_CUH@{CUDA\_UTILS\_CUH}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{CUDA\_UTILS\_CUH}{CUDA\_UTILS\_CUH}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_a352ce6e3575d147f21642beae91d10cf} 
+\#define CUDA\+\_\+\+UTILS\+\_\+\+CUH}
+
+\Hypertarget{cuda__utils_8cuh_a5dc7466758969a867f7d8d92f0099d97}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!MAX\_KERNEL\_AREA@{MAX\_KERNEL\_AREA}}
+\index{MAX\_KERNEL\_AREA@{MAX\_KERNEL\_AREA}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{MAX\_KERNEL\_AREA}{MAX\_KERNEL\_AREA}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_a5dc7466758969a867f7d8d92f0099d97} 
+\#define MAX\+\_\+\+KERNEL\+\_\+\+AREA~(\mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}{MAX\+\_\+\+KERNEL\+\_\+\+WIDTH}})}
+
+\Hypertarget{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!MAX\_KERNEL\_WIDTH@{MAX\_KERNEL\_WIDTH}}
+\index{MAX\_KERNEL\_WIDTH@{MAX\_KERNEL\_WIDTH}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{MAX\_KERNEL\_WIDTH}{MAX\_KERNEL\_WIDTH}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_a7c2ed16bf857a222804137d9dd00ab05} 
+\#define MAX\+\_\+\+KERNEL\+\_\+\+WIDTH~64}
+
+
+
+\label{doc-func-members}
+\Hypertarget{cuda__utils_8cuh_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{cuda__utils_8cuh_a17163c6daa90a933122e449c8c165be6}\index{cuda\_utils.cuh@{cuda\_utils.cuh}!clamp@{clamp}}
+\index{clamp@{clamp}!cuda\_utils.cuh@{cuda\_utils.cuh}}
+\doxysubsubsection{\texorpdfstring{clamp()}{clamp()}}
+{\footnotesize\ttfamily \label{cuda__utils_8cuh_a17163c6daa90a933122e449c8c165be6} 
+\+\_\+\+\_\+device\+\_\+\+\_\+ \+\_\+\+\_\+forceinline\+\_\+\+\_\+ int clamp (\begin{DoxyParamCaption}\item[{int}]{value}{, }\item[{int}]{min\+Val}{, }\item[{int}]{max\+Val}{}\end{DoxyParamCaption})}
+
+
+
+Clamp a value to a specified range. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The value to clamp. \\
+\hline
+{\em min\+Val} & The minimum value of the range. \\
+\hline
+{\em max\+Val} & The maximum value of the range. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The clamped value. 
+\end{DoxyReturn}
