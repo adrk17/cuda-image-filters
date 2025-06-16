@@ -25,10 +25,10 @@ void testEveryKernel(FilterParams& params, cv::Mat image, int verbose = 1);
  *
  * @param winName   Name of the display window.
  * @param img       Image to display.
- * @param maxWidth  Maximum allowed width for display (default 1000).
- * @param maxHeight Maximum allowed height for display (default 1200).
+ * @param maxWidth  Maximum allowed width for display (default 600).
+ * @param maxHeight Maximum allowed height for display (default 600).
  */
-void showResizedIfNeeded(const std::string& winName, const cv::Mat& img, int maxWidth = 1000, int maxHeight = 1200);
+void showResizedIfNeeded(const std::string& winName, const cv::Mat& img, int maxWidth = 600, int maxHeight = 600);
 /**
  * @brief Benchmarks all supported filters by running each for a specified number of iterations.
  *
@@ -70,16 +70,57 @@ int main() {
 	//std::cout << "CUDA devices: " << cv::cuda::getCudaEnabledDeviceCount() << std::endl;
 
 	std::string path = "./galaxy.jpeg";
+	std::string path2 = "./lena.png"; 
 	cv::Mat input = ImageLoader::loadImage(path);
+	cv::Mat input2 = ImageLoader::loadImage(path2);
 
 	FilterParams params;
 	params.kernelWidth = 9;
 	params.sigma = 5.0f;
 	params.morphShape = cv::MORPH_CROSS;
-	params.morphKernelSize = cv::Size(8, 5);
+	params.morphKernelSize = cv::Size(8, 9);
 
-	benchmarkEveryKernel(params, input, 5, 0);
+	char choice = '3';
 
+	int maxIt = 100;
+	int i = 0;
+	while (i < maxIt)
+	{
+		std::cout << "Choose an option:\n\t1 - Test all kernels,\n\t2 - Benchmark all kernels,\n\t3 - exit\n";
+		std::cin >> choice;
+
+
+		if (choice == '1' || choice == '2')
+		{
+			std::cout << "Input parameters:\n";
+			std::cout << "Kernel width for Gaussian blur: " << params.kernelWidth << "\n";
+			std::cout << "Sigma for Gaussian blur: " << params.sigma << "\n";
+			std::cout << "Morphology shape: " << params.morphShape << "\n";
+			std::cout << "Morphology kernel size: " << params.morphKernelSize.width << " x " << params.morphKernelSize.height << "\n\n";
+		}
+
+
+		if (choice == '1') {
+			testEveryKernel(params, input2, 2);
+		}
+		else if (choice == '2') {
+			std::cout << "Enter number of iterations for benchmarking: \n";
+			int it = 0;
+			std::cin >> it;
+			std::cout << "Benchmarking all kernels for " << it << " iterations...\n";
+			std::cout << "Processing image: " << path << "\n";
+			std::cout << "Of size: " << input.cols << " x " << input.rows << " pixels\n";
+			benchmarkEveryKernel(params, input, it, 0);
+		}
+		else if (choice == '3') {
+			break;
+		}
+		else {
+			std::cout << "Invalid choice. Please try again.\n";
+		}
+		i++;
+		choice = '3';
+	}
 	return 0;
 }
 

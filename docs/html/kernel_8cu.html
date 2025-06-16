@@ -102,8 +102,8 @@ $(function(){initNavTree('kernel_8cu.html','',''); });
 Functions</h2></td></tr>
 <tr class="memitem:ae4eeccaf9b52ab72066ac678e89be836" id="r_ae4eeccaf9b52ab72066ac678e89be836"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae4eeccaf9b52ab72066ac678e89be836">testEveryKernel</a> (<a class="el" href="struct_filter_params.html">FilterParams</a> &amp;params, cv::Mat image, int verbose=1)</td></tr>
 <tr class="memdesc:ae4eeccaf9b52ab72066ac678e89be836"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tests all supported filters (Gaussian blur, erosion, dilation, opening, closing) on the provided image.  <br /></td></tr>
-<tr class="memitem:a731fc475e448305dddb822bb2a018d1e" id="r_a731fc475e448305dddb822bb2a018d1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a731fc475e448305dddb822bb2a018d1e">showResizedIfNeeded</a> (const std::string &amp;winName, const cv::Mat &amp;img, int maxWidth=1000, int maxHeight=1200)</td></tr>
-<tr class="memdesc:a731fc475e448305dddb822bb2a018d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays an image in a window, resizing it if it exceeds the specified maximum dimensions.  <br /></td></tr>
+<tr class="memitem:a41bc3ad39f72d983733fd7831148a943" id="r_a41bc3ad39f72d983733fd7831148a943"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41bc3ad39f72d983733fd7831148a943">showResizedIfNeeded</a> (const std::string &amp;winName, const cv::Mat &amp;img, int maxWidth=600, int maxHeight=600)</td></tr>
+<tr class="memdesc:a41bc3ad39f72d983733fd7831148a943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays an image in a window, resizing it if it exceeds the specified maximum dimensions.  <br /></td></tr>
 <tr class="memitem:adaaf88d0e002316b3be13d9a05e49bbe" id="r_adaaf88d0e002316b3be13d9a05e49bbe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adaaf88d0e002316b3be13d9a05e49bbe">benchmarkEveryKernel</a> (<a class="el" href="struct_filter_params.html">FilterParams</a> &amp;params, cv::Mat image, int iterations, int verbose=0)</td></tr>
 <tr class="memdesc:adaaf88d0e002316b3be13d9a05e49bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Benchmarks all supported filters by running each for a specified number of iterations.  <br /></td></tr>
 <tr class="memitem:acb62dd7690794a4adf4b1fb580596c1a" id="r_acb62dd7690794a4adf4b1fb580596c1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb62dd7690794a4adf4b1fb580596c1a">checkDifferance</a> (const cv::Mat &amp;img1, const cv::Mat &amp;img2, int verbose=1, int borderSize=10, int diffThreshold=0)</td></tr>
@@ -225,8 +225,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a731fc475e448305dddb822bb2a018d1e" name="a731fc475e448305dddb822bb2a018d1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a731fc475e448305dddb822bb2a018d1e">&#9670;&#160;</a></span>showResizedIfNeeded()</h2>
+<a id="a41bc3ad39f72d983733fd7831148a943" name="a41bc3ad39f72d983733fd7831148a943"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41bc3ad39f72d983733fd7831148a943">&#9670;&#160;</a></span>showResizedIfNeeded()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,12 +244,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maxWidth</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1000</span>, </td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maxWidth</em></span><span class="paramdefsep"> = </span><span class="paramdefval">600</span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maxHeight</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1200</span>&#160;)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>maxHeight</em></span><span class="paramdefsep"> = </span><span class="paramdefval">600</span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -260,8 +260,8 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">winName</td><td>Name of the display window. </td></tr>
     <tr><td class="paramname">img</td><td>Image to display. </td></tr>
-    <tr><td class="paramname">maxWidth</td><td>Maximum allowed width for display (default 1000). </td></tr>
-    <tr><td class="paramname">maxHeight</td><td>Maximum allowed height for display (default 1200). </td></tr>
+    <tr><td class="paramname">maxWidth</td><td>Maximum allowed width for display (default 600). </td></tr>
+    <tr><td class="paramname">maxHeight</td><td>Maximum allowed height for display (default 600). </td></tr>
   </table>
   </dd>
 </dl>

@@ -11,7 +11,7 @@
 \item 
 void \mbox{\hyperlink{kernel_8cu_ae4eeccaf9b52ab72066ac678e89be836}{test\+Every\+Kernel}} (\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, cv\+::\+Mat image, int verbose=1)
 \begin{DoxyCompactList}\small\item\em Tests all supported filters (Gaussian blur, erosion, dilation, opening, closing) on the provided image. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{kernel_8cu_a731fc475e448305dddb822bb2a018d1e}{show\+Resized\+If\+Needed}} (const std\+::string \&win\+Name, const cv\+::\+Mat \&img, int max\+Width=1000, int max\+Height=1200)
+void \mbox{\hyperlink{kernel_8cu_a41bc3ad39f72d983733fd7831148a943}{show\+Resized\+If\+Needed}} (const std\+::string \&win\+Name, const cv\+::\+Mat \&img, int max\+Width=600, int max\+Height=600)
 \begin{DoxyCompactList}\small\item\em Displays an image in a window, resizing it if it exceeds the specified maximum dimensions. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{kernel_8cu_adaaf88d0e002316b3be13d9a05e49bbe}{benchmark\+Every\+Kernel}} (\mbox{\hyperlink{struct_filter_params}{Filter\+Params}} \&params, cv\+::\+Mat image, int iterations, int verbose=0)
 \begin{DoxyCompactList}\small\item\em Benchmarks all supported filters by running each for a specified number of iterations. \end{DoxyCompactList}\item 
@@ -87,11 +87,11 @@ Loads an input image, sets up filter parameters, and benchmarks all supported fi
 \begin{DoxyReturn}{Returns}
 0 on successful execution. 
 \end{DoxyReturn}
-\Hypertarget{kernel_8cu_a731fc475e448305dddb822bb2a018d1e}\index{kernel.cu@{kernel.cu}!showResizedIfNeeded@{showResizedIfNeeded}}
+\Hypertarget{kernel_8cu_a41bc3ad39f72d983733fd7831148a943}\index{kernel.cu@{kernel.cu}!showResizedIfNeeded@{showResizedIfNeeded}}
 \index{showResizedIfNeeded@{showResizedIfNeeded}!kernel.cu@{kernel.cu}}
 \doxysubsubsection{\texorpdfstring{showResizedIfNeeded()}{showResizedIfNeeded()}}
-{\footnotesize\ttfamily \label{kernel_8cu_a731fc475e448305dddb822bb2a018d1e} 
-void show\+Resized\+If\+Needed (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{win\+Name}{, }\item[{const cv\+::\+Mat \&}]{img}{, }\item[{int}]{max\+Width}{ = {\ttfamily 1000}, }\item[{int}]{max\+Height}{ = {\ttfamily 1200}}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{kernel_8cu_a41bc3ad39f72d983733fd7831148a943} 
+void show\+Resized\+If\+Needed (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{win\+Name}{, }\item[{const cv\+::\+Mat \&}]{img}{, }\item[{int}]{max\+Width}{ = {\ttfamily 600}, }\item[{int}]{max\+Height}{ = {\ttfamily 600}}\end{DoxyParamCaption})}
 
 
 
@@ -105,9 +105,9 @@ If the image is larger than max\+Width or max\+Height, it is scaled down to fit 
 \hline
 {\em img} & Image to display. \\
 \hline
-{\em max\+Width} & Maximum allowed width for display (default 1000). \\
+{\em max\+Width} & Maximum allowed width for display (default 600). \\
 \hline
-{\em max\+Height} & Maximum allowed height for display (default 1200). \\
+{\em max\+Height} & Maximum allowed height for display (default 600). \\
 \hline
 \end{DoxyParams}
 \Hypertarget{kernel_8cu_ae4eeccaf9b52ab72066ac678e89be836}\index{kernel.cu@{kernel.cu}!testEveryKernel@{testEveryKernel}}

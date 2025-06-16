@@ -1,0 +1,89 @@
+Gauss:
+kernelWidth = 9;
+sigma = 5.0f;
+
+Morfologiczne:
+MorphShape = cv::MORPH_CROSS;
+KernelSize = cv::Size(8, 9);
+
+================ Gaussian Blur ================
+
+Average time for 20 iterations:
+[CPU-OpenCV]    :       652.74 ms
+[GPU-Custom]    :       75.9098 ms
+[GPU-OpenCV]    :        27.6495 ms
+
+
+Total different pixels (> 0): 1008389 / 73762646
+ - Border differences: 71109
+ - Inner differences: 937280
+
+================ Gaussian Blur ================
+
+
+
+
+================ Erosion ================
+
+Average time for 20 iterations:
+[CPU-OpenCV]    :       523.758 ms
+[GPU-Custom]    :       195.611 ms
+[GPU-OpenCV]    :        58.7308 ms
+
+
+Total different pixels (> 0): 0 / 73762646
+ - Border differences: 0
+ - Inner differences: 0
+
+================ Erosion ================
+
+
+
+
+================ Dilation ================
+
+Average time for 20 iterations:
+[CPU-OpenCV]    :       525.282 ms
+[GPU-Custom]    :       197.779 ms
+[GPU-OpenCV]    :        58.8818 ms
+
+
+Total different pixels (> 0): 0 / 73762646
+ - Border differences: 0
+ - Inner differences: 0
+
+================ Dilation ================
+
+
+
+
+================ Opening ================
+
+Average time for 20 iterations:
+[CPU-OpenCV]    :       958.017 ms
+[GPU-Custom]    :       381.5 ms
+[GPU-OpenCV]    :        108.774 ms
+
+
+Total different pixels (> 0): 0 / 73762646
+ - Border differences: 0
+ - Inner differences: 0
+
+================ Opening ================
+
+
+
+
+================ Closing ================
+
+Average time for 20 iterations:
+[CPU-OpenCV]    :       987.524 ms
+[GPU-Custom]    :       379.313 ms
+[GPU-OpenCV]    :        109.788 ms
+
+
+Total different pixels (> 0): 0 / 73762646
+ - Border differences: 0
+ - Inner differences: 0
+
+================ Closing ================
